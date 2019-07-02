@@ -35,4 +35,3 @@ def loginlogic(request):
 
 def home(request):
     return  render(request,'groupapp/menu.html')
-

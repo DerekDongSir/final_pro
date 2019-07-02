@@ -2,68 +2,108 @@
 {% load static %}
 <html>
 <head>
-<title>Home</title>
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<meta name="keywords" content="" />
-<script src="/static/scripts/jquery/jquery-1.4.4.min.js"></script>
-<script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
-<!-- font files  -->
-<link href='https://fonts.googleapis.com/css?family=Muli:400,300' rel='stylesheet' type='text/css'>
-<link href='https://fonts.googleapis.com/css?family=Nunito:400,300,700' rel='stylesheet' type='text/css'>
-<!-- /font files  -->
-<!-- css files -->
-<link href="/static/css/style.css" rel='stylesheet' type='text/css' media="all" />
-<!-- /css files -->
+    <title>Home</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta name="keywords" content=""/>
+    <script src="/static/scripts/jquery/jquery-1.4.4.min.js"></script>
+    <script type="application/x-javascript"> addEventListener("load", function () {
+        setTimeout(hideURLbar, 0);
+    }, false);
+
+    function hideURLbar() {
+        window.scrollTo(0, 1);
+    } </script>
+    <!-- font files  -->
+    <link href='https://fonts.googleapis.com/css?family=Muli:400,300' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Nunito:400,300,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="/static/style.css">
+    <!-- /font files  -->
+    <!-- css files -->
+    <link href="/static/css/style.css" rel='stylesheet' type='text/css' media="all"/>
+    <script type="text/javascript" src="/static/style.js"></script>
+    <!-- /css files -->
     <script>
         var name_flag = false;
         var password_flag = false;
+
         function check_name(self) {
-             var re = /^[^0-9][a-zA-Z0-9_]+$/;
-            if(!self.value){alert('Name can\'t be empty!')}
-            else if(!re.test(self.value)) {alert('Name form error!')}
-            else{   name_flag = true;   }
+            var re = /^[^0-9][a-zA-Z0-9_]+$/;
+            if (!self.value) {
+                alert('Name can\'t be empty!')
+            } else if (!re.test(self.value)) {
+                alert('Name form error!')
+            } else {
+                name_flag = true;
+            }
         }
+
         function check_password(self) {
             {#必须包含 大小写字母，@ 其中的两个#}
             var re1 = /@/;
             var re2 = /[a-z]/;
             var re3 = /[A-Z]/;
-            var count = re1.test(self.value)+re2.test(self.value)+re3.test(self.value);
-            if (!self.value) { alert('Password can\'t be empty!')}
-            else if(count < 2){ alert('Password form error')}
-            else{   password_flag = true }
+            var count = re1.test(self.value) + re2.test(self.value) + re3.test(self.value);
+            if (!self.value) {
+                alert('Password can\'t be empty!')
+            } else if (count < 2) {
+                alert('Password form error')
+            } else {
+                password_flag = true
+            }
         }
+
         function mysubmit(self) {
-             if(name_flag && password_flag)
-             { $(self).parent().parent().submit();}
-            else {  alert('You can\'t submit now !') }
+            if (name_flag && password_flag) {
+                $(self).parent().parent().submit();
+            } else {
+                alert('You can\'t submit now !')
+            }
         }
 
     </script>
+
+
 </head>
 <body>
 <h1>Login</h1>
 <div class="log">
-	<div class="content1">
-		<h2>Login</h2>
-		<form action="{% url 'groupapp:loginlogic' %}" method="post">
-            {%  csrf_token %}
-			<input type="text" name="name" onblur="check_name(this)" placeholder='USERNAME'>
-			<input type="password" name="password" onblur= 'check_password(this)' placeholder="PASSWORD">
-			<div class="button-row">
-				<input type="button" class="sign-in" value="Sign In" onclick="mysubmit(this)">
-				<input type="reset" class="reset" value="Reset">
-				<div class="clear"></div>
-			</div>
-		</form>
-	</div>
+    <div class="content1">
+        <h2>Login</h2>
+        <form action="{% url 'groupapp:loginlogic' %}" method="post">
+            {% csrf_token %}
+            <input type="text" name="name" onblur="check_name(this)" placeholder='USERNAME'>
+            <input type="password" name="password" onblur='check_password(this)' placeholder="PASSWORD">
 
-	<div class="clear"></div>
+            <div class="button-row">
+                <input type="button" class="sign-in" value="Sign In" onclick="mysubmit(this)">
+                <input type="reset" class="reset" value="Reset">
+                <div class="clear"></div>
+            </div>
+            {#            下面这个div是滑块验证码的#}
+            <div id="slideBar"></div>
+        </form>
+    </div>
+    <div class="clear"></div>
 </div>
 <div class="footer">
-	<p>Copyright &copy;  <a href="http://www.baizhiedu.com/" target="_blank" title="百知教育">百知教育</a></p>
+    <p>Copyright &copy; <a href="http://www.baizhiedu.com/" target="_blank" title="百知教育">百知教育</a></p>
 </div>
-
+<script type="text/javascript">
+    var dataList = ["0", "1"];
+    {#这个不用动#}
+    var options = {
+        dataList: dataList,
+        success: function () {
+            {#成功时返回的数据#}
+            console.log("show");
+        },
+        fail: function () {
+            {#失败时返回的 数据#}
+            console.log("fail");
+        }
+    };
+    SliderBar("slideBar", options);
+</script>
 </body>
 </html>

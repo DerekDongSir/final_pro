@@ -24,45 +24,51 @@
     <script type="text/javascript" src="/static/style.js"></script>
     <!-- /css files -->
     <script>
-        var name_flag = false;
+        var phone_flag = false;
         var password_flag = false;
         var code_flag = false;
-        function check_name(self) {
-            var re = /^[^0-9][a-zA-Z0-9_]+$/;
-            if (!self.value) {
-                alert('Name can\'t be empty!')
-            } else if (!re.test(self.value)) {
-                alert('Name form error!')
-            } else {
-                name_flag = true;
+        function check_phone(self) {
+           var re = /^1(3|4|5|7|8)\d{9}$/;
+            if (!self.value) { alert('Phone can\'t be empty!')}
+            else if(!re.test(self.value)){ alert('Phone form error')}
+            else{  phone_flag = true }
+        }
+
+        function get_code(){
+            if(!phone_flag){  alert('Phone number error')}
+            else{
+                $.ajax({
+                    url:'{% url "groupapp:sendcode"%}',
+                    type:'GET',
+                    data:'phone='+$('#tel').val(),
+                    success:function (res) {
+                        if(res === 'ok')
+                        {   alert('Code gets sent !')  }
+                        else{  alert('Please try again ！') }
+                    }
+                })
             }
         }
 
         function check_password(self) {
             {#必须包含 大小写字母，@ 其中的两个#}
-            var re1 = /@/;
-            var re2 = /[a-z]/;
-            var re3 = /[A-Z]/;
-            var count = re1.test(self.value) + re2.test(self.value) + re3.test(self.value);
+            var re = /\d{4}/;
             if (!self.value) {
-                alert('Password can\'t be empty!')
-            } else if (count < 2) {
-                alert('Password form error')
+                alert('Code can\'t be empty!')
+            } else if (!re.test(self.value)) {
+                alert('Code form error')
             } else {
                 password_flag = true
             }
         }
-
         function mysubmit(self) {
-            if (name_flag && password_flag && code_flag) {
+            if (phone_flag && password_flag && code_flag) {
                 $(self).parent().parent().submit();
             } else {
                 alert('You can\'t submit now !')
             }
         }
-        function phone() {
-            location.href = '{% url 'groupapp:phonelogin' %}';
-        }
+
 
     </script>
 
@@ -73,21 +79,19 @@
 <div class="log">
     <div class="content1">
         <h2>Login</h2>
-        <form action="{% url 'groupapp:loginlogic' %}" method="post">
+        <form action="{% url 'groupapp:phonelogic' %}" method="post">
             {% csrf_token %}
-            <input type="text" name="name" onblur="check_name(this)" placeholder='USERNAME'>
-            <input type="password" name="password" onblur='check_password(this)' placeholder="PASSWORD">
+            <input id='tel' type="text" name="phone" onblur="check_phone(this)" placeholder='PHONENUMBER'>
+            <input type="password" name="code" onblur='check_password(this)' placeholder="CODE">
 
             <div class="button-row">
-                <input type="button" class="sign-in" value="Sign In" onclick="mysubmit(this)">
-                <input type="reset" class="reset" value="Reset">
+                <input type="button" class="sign-in" value="Get Code" onclick="get_code()">
+                <input type="button" class="reset" value="Sign In" onclick="mysubmit(this)">
                 <div class="clear"></div>
             </div>
             {#            下面这个div是滑块验证码的#}
             <div id="slideBar" align="center"></div>
-            <div class="button-row" align="center">
-            <input type="button"  class="reset" value="Phone lgoin" onclick="phone()">
-             </div>
+
         </form>
     </div>
     <div class="clear"></div>

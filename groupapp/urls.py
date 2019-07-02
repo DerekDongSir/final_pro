@@ -7,4 +7,7 @@ urlpatterns = [
     path('registerlogic/',views.registerlogic,name='registerlogic'),
     path('login/',views.login,name='login'),
     path('loginlogic/',views.loginlogic,name='loginlogic'),
+    path('phonelogin/',views.phonelogin,name='phonelogin'),
+    path('phonelogic/',views.phonelogic,name='phonelogic'),
+    path('sendcode/',views.send_code,name='sendcode'),
 ]

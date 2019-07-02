@@ -36,3 +36,5 @@ def loginlogic(request):
 def home(request):
     return  render(request,'groupapp/menu.html')
 
+def huakuai_show(request):
+    return render(request,'yangzhengma_huakuai/index.html')

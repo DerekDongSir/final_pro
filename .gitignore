@@ -1,0 +1,9 @@
+# Created by .ignore support plugin (hsz.mobi)
+
+db.sqlite3
+
+.idea
+
+groupapp\_pycache_
+migrations\_pycache_
+

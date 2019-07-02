@@ -7,5 +7,4 @@ urlpatterns = [
     path('registerlogic/',views.registerlogic,name='registerlogic'),
     path('login/',views.login,name='login'),
     path('loginlogic/',views.loginlogic,name='loginlogic'),
-    path('huakuai_show/',views.huakuai_show,name = 'huakuai')
 ]

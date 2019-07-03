@@ -32,7 +32,7 @@ def loginlogic(request):
         name = request.POST.get('name')
         password = request.POST.get('password')
         if User.objects.get(name=name,password=password):
-            return redirect('groupapp:home')
+            return redirect('showapp:main')
     return redirect('groupapp:login')
 
 def phonelogin(request):
@@ -70,8 +70,6 @@ def phonelogic(request):
         phone = request.POST.get('phone')
         code = request.POST.get('code')
         if request.session.get(phone) == code:
-            return redirect('groupapp:home')
+            return redirect('showapp:main')
     return redirect('groupapp:phonelogin')
 
-def home(request):
-    return  render(request,'groupapp/menu.html')

@@ -2,14 +2,13 @@ from django.http import JsonResponse
 from django.shortcuts import render,HttpResponse
 from showapp.models import Msg
 from django.core.paginator import Paginator
-# Create your views here.
-
-
+from public_fun import connect_hbase,get_ip,generate_log
+table = connect_hbase()
 def menu(request):  # 列表
     # request.session['c_number'] = 1
     city = request.GET.get('city')
     job_type = request.GET.get('type')
-    print(city,job_type,'number')
+    # print(city,job_type,'number')
     if city == 'bj':
         city = '北京'
     elif city == 'sh':
@@ -35,7 +34,9 @@ def menu(request):  # 列表
 
 
 def main(request):  # 主页
-
+    generate_log(table=table,name=request.session.get('name'),ip=get_ip(request))
+    scanner = table.scan(limit=3)
+    print(list(scanner))
     return render(request,'groupapp/main.html')
 
 

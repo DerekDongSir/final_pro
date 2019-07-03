@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html>
 <head>
@@ -8,11 +9,10 @@
 <script type="text/javascript" src="/static/scripts/authority/commonAll.js"></script>
 <script type="text/javascript" src="/static/scripts/fancybox/jquery.fancybox-1.3.4.js"></script>
 <script type="text/javascript" src="/static/scripts/fancybox/jquery.fancybox-1.3.4.pack.js"></script>
-<link rel="stylesheet" type="text/css" href="style/authority/jquery.fancybox-1.3.4.css" media="screen"></link>
+<link rel="stylesheet" type="text/css" href="{% static 'style/authority/jquery.fancybox-1.3.4.css' %}" media="screen">
 <script type="text/javascript" src="/static/scripts/artDialog/artDialog.js?skin=default"></script>
 <title>百智招聘</title>
-<script type="text/javascript">
-</script>
+
 <style>
 </style>
 </head>
@@ -26,14 +26,13 @@
 					<div id="box_border">
 						<div id="box_top">搜索</div>
 						<div id="box_center">
-							<select name="fangyuanEntity.fyXqCode" id="fyXq" class="ui_select01" onchange="getFyDhListByFyXqCode();">
-                                <option value=""
-                                >--请选择--</option>
-                                <option value="">城市</option>
-                                <option value="">职位</option>
+							<select name="fangyuanEntity.fyXqCode" id="fyXq" class="ui_select01">
+                                <option value="other">--请选择--</option>
+                                <option value="city">城市</option>
+                                <option value="position">职位</option>
                             </select>
 							<input type="text" id="fyZldz" name="fangyuanEntity.fyZldz" class="ui_input_txt02" />
-							<input type="button" value="查询" class="ui_input_btn01" onclick="search();" /> 
+							<input type="button" value="查询" class="ui_input_btn01" onclick="searchMsg()" />
 						</div>
 					</div>
 				</div>
@@ -44,58 +43,230 @@
 						<tr>
 							
 						
-							<th>职位</th>
-							<th>公司</th>
-							<th>月薪</th>
-							<th>任职要求</th>
-							<th>经验要求</th>
-							<th>学历要求</th>
-							<th>公司地点</th>
-							<th>部门</th>
+							<th>姓名</th>
+							<th>性别</th>
+							<th>年龄</th>
+							<th>籍贯</th>
+							<th>现居住地</th>
+							<th>期望职位</th>
+							<th>期望城市</th>
+							<th>期望薪资</th>
 						</tr>
-							<tr>
-								
-								<td>AI</td>
-								<td>百度</td>
-								<td>30k-50k</td>
-								<td>没要求</td>
-								<td>没要求</td>
-								<td>没要求</td>
-								<td>北京</td>
-								<td>研发部</td>
-					
+                        {% for i in page.object_list %}
+                            <tr>
+								<td>{{ i.name }}</td>
+								<td>{{ i.gender }}</td>
+								<td>{{ i.age }}</td>
+								<td>{{ i.hometown }}</td>
+								<td>{{ i.living_place }}</td>
+								<td>{{ i.ideal_position }}</td>
+								<td>{{ i.ideal_city }}</td>
+								<td>{{ i.salary }}</td>
 							</tr>
+                        {% endfor %}
+
+
 		
 					</table>
 				</div>
 				<div class="ui_tb_h30">
 					<div class="ui_flt" style="height: 30px; line-height: 30px;">
 						共有
-						<span class="ui_txt_bold04">90</span>
+						<span class="ui_txt_bold04">{{ page.paginator.count }}</span>
 						条记录，当前第
-						<span class="ui_txt_bold04">1
-						/
-						9</span>
+						<span class="ui_txt_bold04"><span id="p_msg">{{ number }}</span>/{{ page.paginator.num_pages }}</span>
 						页
 					</div>
 					<div class="ui_frt">
 						<!--    如果是第一页，则只显示下一页、尾页 -->
 						
-							<input type="button" value="首页" class="ui_input_btn01" />
-							<input type="button" value="上一页" class="ui_input_btn01" />
-							<input type="button" value="下一页" class="ui_input_btn01"
-								onclick="jumpNormalPage(2);" />
-							<input type="button" value="尾页" class="ui_input_btn01"
-								onclick="jumpNormalPage(9);" />
+							<input type="button" value="首页" class="ui_input_btn01" onclick="firstPage('f')" />
+                            <input id="previous" style="visibility: hidden" type="button" value="上一页" class="ui_input_btn01" onclick="firstPage('f12543541254')" />
+                            <input id="next" style="visibility: visible" type="button" value="下一页" class="ui_input_btn01 " onclick="firstPage('f12543451254')" />
+							<input type="button" value="尾页" class="ui_input_btn01" onclick="firstPage('l')" />
 							<!--     如果是最后一页，则只显示首页、上一页 -->
 						
-						转到第<input type="text" id="jumpNumTxt" class="ui_input_txt01" />页
-							 <input type="button" class="ui_input_btn01" value="跳转" onclick="jumpInputPage(9);" />
+						转到第<input id="jump" type="text" id="jumpNumTxt" class="ui_input_txt01" oninput = "value=value.replace(/[^\d]/g,'')" />页
+							 <input type="button" class="ui_input_btn01" value="跳转" onclick="jumpPage()" />
 					</div>
 				</div>
 			</div>
 		</div>
 	</form>
+    <script type="text/javascript" src="{% static 'jquery.1.8.3.min.js' %}"></script>
+    <script>
+        function firstPage(p) {
+            console.log(p,'gggggg');
+            p = p+'';
+            var xhr;
+            if(window.ActiveXObject){
+                xhr = new ActiveXObject('Microsoft.XMLHTTP')
+            }else if(window.XMLHttpRequest){
+                xhr = new XMLHttpRequest()
+            }
+            if (p === 'f12543541254') {
+                var pn = Number(document.getElementById("p_msg").innerText)-1;
+            }else if(p === 'f12543451254'){
+                var pn = Number(document.getElementById("p_msg").innerText)+1;
+            }
+            else{
+                var pn = p
+            }
+            console.log(pn,'44444444444444444444444444')
+            xhr.open('get','{% url 'showapp:changePage' %}?city={{ city }}&job_type={{ job_type }}&v='+p+'&pn='+pn,true);
 
+            xhr.send()
+            xhr.onreadystatechange=function () {
+                if (xhr.readyState === 4 && xhr.status === 200){
+                    var text = xhr.responseText;
+                    var number = eval("("+text+")")['number'];
+                    console.log('yeshuuuuuuuuuuuuuuuu',number);
+                    document.getElementById("p_msg").innerHTML=number;
+
+
+                    var nextstate = eval("("+text+")")['nextstate'];
+                    if(nextstate === 'nextok'){
+                        document.getElementById("next").style.visibility ="visible";
+                            {#$("#next").attr('type','button')#}
+                    }else if (nextstate === 'nextno'){
+                        document.getElementById("next").style.visibility ="hidden";
+                    }
+                    else{
+                        console.log('126')
+                    }
+
+                    var previousstate = eval("("+text+")")['previousstate'];
+                    console.log(previousstate,'mmppppppppppppp')
+                    if(previousstate === "previousok"){
+                        document.getElementById("previous").style.visibility ="visible";
+
+                    }else if(previousstate === "previousno"){
+                        document.getElementById("previous").style.visibility ="hidden";
+                    }else{
+                        console.log('136')
+                    }
+
+
+                    msg = eval("("+text+")")['msgs'];
+                    var s = "<tr>\n" +
+                        "\t\t\t\t\t\t\t\n" +
+                        "\t\t\t\t\t\t\n" +
+                        "\t\t\t\t\t\t\t<th>姓名</th>\n" +
+                        "\t\t\t\t\t\t\t<th>性别</th>\n" +
+                        "\t\t\t\t\t\t\t<th>年龄</th>\n" +
+                        "\t\t\t\t\t\t\t<th>籍贯</th>\n" +
+                        "\t\t\t\t\t\t\t<th>现居住地</th>\n" +
+                        "\t\t\t\t\t\t\t<th>期望职位</th>\n" +
+                        "\t\t\t\t\t\t\t<th>期望城市</th>\n" +
+                        "\t\t\t\t\t\t\t<th>期望薪资</th>\n" +
+                        "\t\t\t\t\t\t</tr>";
+                    for(var i=0;i<msg.length;i++){
+                        s = s + "<tr><td>"+msg[i]["name"]+"</td> <td>"+msg[i]["gender"]+"</td><td>"+msg[i]["age"]+"</td> <td>"+msg[i]["hometown"]+"</td><td>"+msg[i]["living_place"]+"</td> <td>"+msg[i]["ideal_position"]+"</td> <td>"+msg[i]["ideal_city"]+"</td> <td>"+msg[i]["salary"]+"</td></tr>"
+                        {#console.log(msg[i])#}
+                    }
+                    console.log(s);
+                    $('tr').remove();
+                    $("table").prepend(s);
+                }
+            }
+        }
+        function pass(p) {
+
+        }
+
+
+
+        function jumpPage() {
+            var number = document.getElementById("jump").value
+            console.log(number,'pageeeeeeeeeeeeeeeeeeeeeeeeeeeeee');
+            var xhr;
+            if(window.ActiveXObject){
+                xhr=new ActiveXObject('Microsoft.XMLHTTP')
+            }else if(window.XMLHttpRequest){
+                xhr = new XMLHttpRequest()
+            }
+            xhr.open('get','{% url 'showapp:jumpPage' %}?city={{ city }}&job_type={{ job_type }}&number='+number,true);
+            xhr.send();
+            xhr.onreadystatechange=function () {
+                if(xhr.readyState === 4 && xhr.status===200){
+                    var text = xhr.responseText;
+                    var number = eval("("+text+")")['number'];
+                    console.log('yeshuuuuuuuuuuuuuuuu',number);
+                    document.getElementById("p_msg").innerHTML=number;
+
+                    var nextstate = eval("("+text+")")['nextstate'];
+                    console.log(nextstate,'nextstateeeeeeee')
+                    if(nextstate === 'nextok'){
+                        document.getElementById("next").style.visibility ="visible";
+                            {#$("#next").attr('type','button')#}
+                    }else if (nextstate === 'nextno'){
+                        document.getElementById("next").style.visibility ="hidden";
+                    }
+                    else{
+                        console.log('185')
+                    }
+
+
+                    var previousstate = eval("("+text+")")['previousstate'];
+                    console.log(previousstate,'previousstateeeeeeee')
+                    if(previousstate === "previousok"){
+                        document.getElementById("previous").style.visibility ="visible";
+
+                    }else if(previousstate === "previousno"){
+                        document.getElementById("previous").style.visibility ="hidden";
+                    }else{
+                        console.log('200')
+                    }
+
+                    msg = eval("("+text+")")['msgs'];
+                    var s = "<tr>\n" +
+                        "\t\t\t\t\t\t\t\n" +
+                        "\t\t\t\t\t\t\n" +
+                        "\t\t\t\t\t\t\t<th>姓名</th>\n" +
+                        "\t\t\t\t\t\t\t<th>性别</th>\n" +
+                        "\t\t\t\t\t\t\t<th>年龄</th>\n" +
+                        "\t\t\t\t\t\t\t<th>籍贯</th>\n" +
+                        "\t\t\t\t\t\t\t<th>现居住地</th>\n" +
+                        "\t\t\t\t\t\t\t<th>期望职位</th>\n" +
+                        "\t\t\t\t\t\t\t<th>期望城市</th>\n" +
+                        "\t\t\t\t\t\t\t<th>期望薪资</th>\n" +
+                        "\t\t\t\t\t\t</tr>";
+                    for(var i=0;i<msg.length;i++){
+                        s = s + "<tr><td>"+msg[i]["name"]+"</td> <td>"+msg[i]["gender"]+"</td><td>"+msg[i]["age"]+"</td> <td>"+msg[i]["hometown"]+"</td><td>"+msg[i]["living_place"]+"</td> <td>"+msg[i]["ideal_position"]+"</td> <td>"+msg[i]["ideal_city"]+"</td> <td>"+msg[i]["salary"]+"</td></tr>"
+                    }
+                        console.log(s);
+                        $('tr').remove();
+                        $("table").prepend(s);
+                }
+            }
+        }
+        function searchMsg() {
+            var myselect = document.getElementById('fyXq');
+            var msg = document.getElementById('fyZldz').value;
+            var index = myselect.selectedIndex;
+            console.log(index,msg,'choiceeeeeeeeeeeeee')
+            var xhr;
+            if (window.ActiveXObject){
+                xhr = new ActiveXObject('Microsoft.XMLHTTP')
+            }else if(window.XMLHttpRequest){
+                xhr = new XMLHttpRequest()
+            }
+            xhr.open('post','{% url 'showapp:searchMsg' %}',true)
+            xhr.setRequestHeader('Content-type','application/x-www-form-urlencoded')
+            xhr.setRequestHeader('X-CSRFToken','{{ csrf_token }}')
+            xhr.send('index='+index+'&msg='+msg)
+            xhr.onreadystatechange=function () {
+                if (xhr.readyState===4 && xhr.status===200){
+                    var text = xhr.responseText;
+                    console.log(text,'texttttttttttttttttttt')
+                }
+            }
+
+
+
+        }
+
+
+    </script>
 </body>
 </html>

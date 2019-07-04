@@ -4,7 +4,9 @@ from urllib import parse
 from django.shortcuts import render,HttpResponse,redirect
 from .models import User
 from django.db import transaction
+from public_fun import Log
 
+@Log
 def register(request):
     return  render(request,'groupapp/register.html')
 
@@ -22,10 +24,11 @@ def registerlogic(request):
             return redirect('groupapp:login')
     return redirect('groupapp:register')
 
-
+@Log
 def login (request):
     return render(request,'groupapp/login.html')
 
+@Log
 def loginlogic(request):
     if request.method == 'POST':
         name = request.POST.get('name')
@@ -34,10 +37,9 @@ def loginlogic(request):
             request.session['name'] = name
             return redirect('showapp:main')
     return redirect('groupapp:login')
-
+@Log
 def phonelogin(request):
     return  render(request,'groupapp/phonelogin.html')
-
 def send_sms(mobile,account  = 'C37538922',password = '50bcebbf62f2455d9483f9002fbc1781'):
     # 用户名是登录用户中心->验证码短信->产品总览->APIID
     # 密码 查看密码请登录用户中心->验证码短信->产品总览->APIKEY
@@ -64,7 +66,7 @@ def send_code(request):
         request.session[phone] = code # 将短信存入session,key为phone,value为code
         return HttpResponse('ok')
     return HttpResponse('no')
-
+@Log
 def phonelogic(request):
     if request.method == 'POST':
         phone = request.POST.get('phone')

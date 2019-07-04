@@ -2,8 +2,8 @@ from django.http import JsonResponse
 from django.shortcuts import render,HttpResponse
 from showapp.models import Msg
 from django.core.paginator import Paginator
-from public_fun import connect_hbase,get_ip,generate_log
-table = connect_hbase()
+from public_fun import Log
+@Log
 def menu(request):  # 列表
     # request.session['c_number'] = 1
     city = request.GET.get('city')
@@ -31,12 +31,8 @@ def menu(request):  # 列表
     resp = render(request,'groupapp/menu.html',{'page':page,'city':city,'job_type':job_type,'number':'1'})
     resp.set_cookie('hh','1')  # 存cookies
     return resp
-
-
+@Log
 def main(request):  # 主页
-    generate_log(table=table,name=request.session.get('name'),ip=get_ip(request))
-    scanner = table.scan(limit=3)
-    print(list(scanner))
     return render(request,'groupapp/main.html')
 
 

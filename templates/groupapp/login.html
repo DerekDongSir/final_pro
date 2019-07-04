@@ -166,7 +166,7 @@
         $.ajax({
             type: "POST",
             url: "{% url 'groupapp:face' %}",
-            data: {pp: img, name: 'hehe',um: num, csrfmiddlewaretoken: '{{ csrf_token }}'},
+            data: {pp: img, name: 'hehe',um: dont, csrfmiddlewaretoken: '{{ csrf_token }}'},
             success: function (msg) {
                 console.log(num);
                 if (msg === '1') {
@@ -174,7 +174,7 @@
                     alert('很好，我的数据库里有你的大饼脸');
                 }
                 dont += 1;
-                if (dont === 100) {
+                if (dont === 5) {
                     closeMedia();
                     alert('你不是我们的大饼脸');
                 }

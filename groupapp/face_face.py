@@ -1,7 +1,6 @@
 from PIL import Image
 import uuid, os, MySQLdb, face_recognition
 
-
 class Face_to_Face(object):
     # 创建对象时，传入：
     # data_name : 存放静态文件的地方；
@@ -24,16 +23,19 @@ class Face_to_Face(object):
         self.table = str(table)
 
     def face_yanzheng(self, user_name, unknown_face,yu_zhi):
-        unknow_user = face_recognition.load_image_file(unknown_face)
-        unknowencoding = face_recognition.face_encodings(unknow_user)[0]
-        hehe = self.read_face(user_name)
-        for i in hehe:
-            face_distances = face_recognition.face_distance([unknowencoding], i)
-            if face_distances[0]<yu_zhi:
-                print('123')
-                return True
-        print('453')
-        return False
+        try:
+            unknow_user = face_recognition.load_image_file(unknown_face)
+            unknowencoding = face_recognition.face_encodings(unknow_user)[0]
+            hehe = self.read_face(user_name)
+            for i in hehe:
+                face_distances = face_recognition.face_distance([unknowencoding], i)
+                if face_distances[0]<yu_zhi:
+                    print('123')
+                    return True
+            print('453')
+            return False
+        except:
+            return False
 
     def add_face(self, user_name, face):
         image = face_recognition.load_image_file(face)

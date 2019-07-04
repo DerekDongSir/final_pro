@@ -87,15 +87,18 @@ def add_user_face(request):
     fa_im = request.POST.get('pp').replace("data:image/jpeg;base64,", "")
     num = request.POST.get('um')
     img = base64.b64decode(fa_im)
-    with open(str(num)+'.jpg','bw') as b:
-        b.write(img)
-        b.close()
-    if mana == 'add':
-        face = Fa('user_face', 'user_face').add_face(name, str(num)+'.jpg')
-    else:
-        face = Fa('user_face', 'user_face').face_yanzheng(name,str(num)+'.jpg',0.5)
-    os.remove(str(num) + '.jpg')
-    if face:
-        return HttpResponse('1')
-    else:
+    try:
+        with open(str(num)+'.jpg','bw') as b:
+            b.write(img)
+            b.close()
+        if mana == 'add':
+            face = Fa('user_face', 'user_face').add_face(name, str(num)+'.jpg')
+        else:
+            face = Fa('user_face', 'user_face').face_yanzheng(name,str(num)+'.jpg',0.35)
+        os.remove(str(num) + '.jpg')
+        if face:
+            return HttpResponse('1')
+        else:
+            return HttpResponse('0')
+    except:
         return HttpResponse('0')

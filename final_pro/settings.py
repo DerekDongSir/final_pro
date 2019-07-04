@@ -125,6 +125,6 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.0/howto/static-files/
-
+SESSION_EXPIRE_AT_BROWSER_CLOSE=True  # 设置session存活周期为一个会话周期
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [os.path.join(BASE_DIR,'static'),]

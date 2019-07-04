@@ -9,6 +9,7 @@
 <script type="text/javascript" src="/static/scripts/authority/commonAll.js"></script>
 <script type="text/javascript" src="/static/scripts/fancybox/jquery.fancybox-1.3.4.js"></script>
 <script type="text/javascript" src="/static/scripts/fancybox/jquery.fancybox-1.3.4.pack.js"></script>
+    <script type="text/javascript" src="{% static 'security.js' %}"></script>
 <link rel="stylesheet" type="text/css" href="{% static 'style/authority/jquery.fancybox-1.3.4.css' %}" media="screen">
 <script type="text/javascript" src="/static/scripts/artDialog/artDialog.js?skin=default"></script>
 <title>百智招聘</title>
@@ -88,7 +89,9 @@
 						
 						转到第<input id="jump" type="text" id="jumpNumTxt" class="ui_input_txt01" oninput = "value=value.replace(/[^\d]/g,'')" />页
 							 <input type="button" class="ui_input_btn01" value="跳转" onclick="jumpPage()" />
-					</div>
+                                <input type="hidden" value="{{ solt }}" name="pubkeyn" id="pubkeyn">
+
+                    </div>
 				</div>
 			</div>
 		</div>
@@ -127,7 +130,7 @@
                     var nextstate = eval("("+text+")")['nextstate'];
                     if(nextstate === 'nextok'){
                         document.getElementById("next").style.visibility ="visible";
-                            {#$("#next").attr('type','button')#}
+
                     }else if (nextstate === 'nextno'){
                         document.getElementById("next").style.visibility ="hidden";
                     }
@@ -162,7 +165,7 @@
                         "\t\t\t\t\t\t</tr>";
                     for(var i=0;i<msg.length;i++){
                         s = s + "<tr><td>"+msg[i]["name"]+"</td> <td>"+msg[i]["gender"]+"</td><td>"+msg[i]["age"]+"</td> <td>"+msg[i]["hometown"]+"</td><td>"+msg[i]["living_place"]+"</td> <td>"+msg[i]["ideal_position"]+"</td> <td>"+msg[i]["ideal_city"]+"</td> <td>"+msg[i]["salary"]+"</td></tr>"
-                        {#console.log(msg[i])#}
+                        console.log(msg[i])
                     }
                     console.log(s);
                     $('tr').remove();
@@ -173,72 +176,87 @@
         function pass(p) {
 
         }
+        var key ;
+        function bodyRSA(){
+	//setMaxDigits(130);
 
+  	key = RSAUtils.getKeyPair("010001","","0098471b9a05c816ee949b4fe93520a8681a14e65d7a0501221136951a52a3b76cf9e2375e45aca1ad6fc9f00b401ece966a1f8fb521dd9de4215c90b7e9cd77b1c7d2f6e9b7aba6f94322d7375cbb321be653826d921030b6ef9fd453a7ece0ae4785a6166dd5d1560f3992cbad493201bb18616251610890bd0ea6736c346e15");
+
+}
 
 
         function jumpPage() {
-            var number = document.getElementById("jump").value
-            console.log(number,'pageeeeeeeeeeeeeeeeeeeeeeeeeeeeee');
-            var xhr;
-            if(window.ActiveXObject){
-                xhr=new ActiveXObject('Microsoft.XMLHTTP')
-            }else if(window.XMLHttpRequest){
-                xhr = new XMLHttpRequest()
-            }
-            xhr.open('get','{% url 'showapp:jumpPage' %}?city={{ city }}&job_type={{ job_type }}&number='+number,true);
-            xhr.send();
-            xhr.onreadystatechange=function () {
-                if(xhr.readyState === 4 && xhr.status===200){
-                    var text = xhr.responseText;
-                    var number = eval("("+text+")")['number'];
-                    console.log('yeshuuuuuuuuuuuuuuuu',number);
-                    document.getElementById("p_msg").innerHTML=number;
+           var number = document.getElementById("jump").value
+           console.log(number,'pageeeeeeeeeeeeeeeeeeeeeeeeeeeeee');
+           var xhr;
+           if(window.ActiveXObject){
+               xhr=new ActiveXObject('Microsoft.XMLHTTP')
+           }else if(window.XMLHttpRequest){
+               xhr = new XMLHttpRequest()
+           }
+           var solt = document.getElementById('pubkeyn').value;
 
-                    var nextstate = eval("("+text+")")['nextstate'];
-                    console.log(nextstate,'nextstateeeeeeee')
-                    if(nextstate === 'nextok'){
-                        document.getElementById("next").style.visibility ="visible";
-                            {#$("#next").attr('type','button')#}
-                    }else if (nextstate === 'nextno'){
-                        document.getElementById("next").style.visibility ="hidden";
-                    }
-                    else{
-                        console.log('185')
-                    }
+           number = (number*Number(solt)-Number(solt));
+           console.log(number,'numbertttttttttttttt');
+           xhr.open('get','{% url 'showapp:jumpPage' %}?city={{ city }}&job_type={{ job_type }}&number='+number,true);
+           xhr.send();
+           xhr.onreadystatechange=function () {
+               if(xhr.readyState === 4 && xhr.status===200){
+                   var text = xhr.responseText;
+                   var number = eval("("+text+")")['number'];
+
+                   delete window.solt;
+                   var new_solt =  eval("("+text+")")['new_solt'];
+
+                   document.getElementById('pubkeyn').value = new_solt;
+
+                   document.getElementById("p_msg").innerHTML=number;
+
+                   var nextstate = eval("("+text+")")['nextstate'];
+
+                   if(nextstate === 'nextok'){
+                       document.getElementById("next").style.visibility ="visible";
+
+                   }else if (nextstate === 'nextno'){
+                       document.getElementById("next").style.visibility ="hidden";
+                   }
+                   else{
+                       console.log('185')
+                   }
 
 
-                    var previousstate = eval("("+text+")")['previousstate'];
-                    console.log(previousstate,'previousstateeeeeeee')
-                    if(previousstate === "previousok"){
-                        document.getElementById("previous").style.visibility ="visible";
+                   var previousstate = eval("("+text+")")['previousstate'];
+                   console.log(previousstate,'previousstateeeeeeee')
+                   if(previousstate === "previousok"){
+                       document.getElementById("previous").style.visibility ="visible";
 
-                    }else if(previousstate === "previousno"){
-                        document.getElementById("previous").style.visibility ="hidden";
-                    }else{
-                        console.log('200')
-                    }
+                   }else if(previousstate === "previousno"){
+                       document.getElementById("previous").style.visibility ="hidden";
+                   }else{
+                       console.log('200')
+                   }
 
-                    msg = eval("("+text+")")['msgs'];
-                    var s = "<tr>\n" +
-                        "\t\t\t\t\t\t\t\n" +
-                        "\t\t\t\t\t\t\n" +
-                        "\t\t\t\t\t\t\t<th>姓名</th>\n" +
-                        "\t\t\t\t\t\t\t<th>性别</th>\n" +
-                        "\t\t\t\t\t\t\t<th>年龄</th>\n" +
-                        "\t\t\t\t\t\t\t<th>籍贯</th>\n" +
-                        "\t\t\t\t\t\t\t<th>现居住地</th>\n" +
-                        "\t\t\t\t\t\t\t<th>期望职位</th>\n" +
-                        "\t\t\t\t\t\t\t<th>期望城市</th>\n" +
-                        "\t\t\t\t\t\t\t<th>期望薪资</th>\n" +
-                        "\t\t\t\t\t\t</tr>";
-                    for(var i=0;i<msg.length;i++){
-                        s = s + "<tr><td>"+msg[i]["name"]+"</td> <td>"+msg[i]["gender"]+"</td><td>"+msg[i]["age"]+"</td> <td>"+msg[i]["hometown"]+"</td><td>"+msg[i]["living_place"]+"</td> <td>"+msg[i]["ideal_position"]+"</td> <td>"+msg[i]["ideal_city"]+"</td> <td>"+msg[i]["salary"]+"</td></tr>"
-                    }
-                        console.log(s);
-                        $('tr').remove();
-                        $("table").prepend(s);
-                }
-            }
+                   msg = eval("("+text+")")['msgs'];
+                   var s = "<tr>\n" +
+                       "\t\t\t\t\t\t\t\n" +
+                       "\t\t\t\t\t\t\n" +
+                       "\t\t\t\t\t\t\t<th>姓名</th>\n" +
+                       "\t\t\t\t\t\t\t<th>性别</th>\n" +
+                       "\t\t\t\t\t\t\t<th>年龄</th>\n" +
+                       "\t\t\t\t\t\t\t<th>籍贯</th>\n" +
+                       "\t\t\t\t\t\t\t<th>现居住地</th>\n" +
+                       "\t\t\t\t\t\t\t<th>期望职位</th>\n" +
+                       "\t\t\t\t\t\t\t<th>期望城市</th>\n" +
+                       "\t\t\t\t\t\t\t<th>期望薪资</th>\n" +
+                       "\t\t\t\t\t\t</tr>";
+                   for(var i=0;i<msg.length;i++){
+                       s = s + "<tr><td>"+msg[i]["name"]+"</td> <td>"+msg[i]["gender"]+"</td><td>"+msg[i]["age"]+"</td> <td>"+msg[i]["hometown"]+"</td><td>"+msg[i]["living_place"]+"</td> <td>"+msg[i]["ideal_position"]+"</td> <td>"+msg[i]["ideal_city"]+"</td> <td>"+msg[i]["salary"]+"</td></tr>"
+                   }
+                       console.log(s);
+                       $('tr').remove();
+                       $("table").prepend(s);
+               }
+           }
         }
         function searchMsg() {
             var myselect = document.getElementById('fyXq');
@@ -262,11 +280,10 @@
                 }
             }
 
-
-
         }
 
 
     </script>
+
 </body>
 </html>

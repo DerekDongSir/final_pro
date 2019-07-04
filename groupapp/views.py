@@ -1,9 +1,14 @@
+import base64
+import os
 import re
 import http.client
+import time
 from urllib import parse
 from django.shortcuts import render,HttpResponse,redirect
 from .models import User
 from django.db import transaction
+from groupapp.face_face import Face_to_Face as Fa
+
 # Create your views here.
 def register(request):
     return  render(request,'groupapp/register.html')
@@ -32,7 +37,7 @@ def loginlogic(request):
         name = request.POST.get('name')
         password = request.POST.get('password')
         if User.objects.get(name=name,password=password):
-            return redirect('showapp:main')
+            return redirect('groupapp:home')
     return redirect('groupapp:login')
 
 def phonelogin(request):
@@ -70,6 +75,27 @@ def phonelogic(request):
         phone = request.POST.get('phone')
         code = request.POST.get('code')
         if request.session.get(phone) == code:
-            return redirect('showapp:main')
+            return redirect('groupapp:home')
     return redirect('groupapp:phonelogin')
 
+def home(request):
+    return  render(request,'groupapp/menu.html')
+
+def add_user_face(request):
+    name = request.POST.get('name')
+    mana=request.POST.get('mana')
+    fa_im = request.POST.get('pp').replace("data:image/jpeg;base64,", "")
+    num = request.POST.get('um')
+    img = base64.b64decode(fa_im)
+    with open(str(num)+'.jpg','bw') as b:
+        b.write(img)
+        b.close()
+    if mana == 'add':
+        face = Fa('user_face', 'user_face').add_face(name, str(num)+'.jpg')
+    else:
+        face = Fa('user_face', 'user_face').face_yanzheng(name,str(num)+'.jpg',0.5)
+    os.remove(str(num) + '.jpg')
+    if face:
+        return HttpResponse('1')
+    else:
+        return HttpResponse('0')

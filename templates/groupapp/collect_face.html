@@ -1,10 +1,20 @@
 <!doctype html>
+{% load static %}
 <html>
 <head>
     <title>Home</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <meta name="keywords" content=""/>
+    <style>
+        #wait{
+            font-size: 2rem;
+            color: #fdfff2;
+        }
+        #wait img{
+            width: 25px
+        }
+    </style>
     <script src="/static/scripts/jquery/jquery-1.4.4.min.js"></script>
     <script type="application/x-javascript"> addEventListener("load", function () {
         setTimeout(hideURLbar, 0);
@@ -29,10 +39,13 @@
         <h2>Register</h2>
         <div id="vidi">
             <button class="register" onclick="openMedia()" id="openvideo">开启摄像头</button>
-            <button class="register" onclick="make_face()" id="takephoto" style="display: none">拍照</button>
-{#                        <img id="imgTag" src="" alt="imgTag">#}
-                        <button class="register" onclick="closeMedia()">关闭摄像头</button>
-            <video id="video" width="500px" height="500px" autoplay="autoplay"></video>
+            <button class="register" onclick="make_face()" id="takephoto" style="display: none">开始采集你的大脸</button>
+            <div id="wait"></div>
+            {#                        <img id="imgTag" src="" alt="imgTag">#}
+            <button class="register" id="closevideo" onclick="closeMedia()" style="display: none">关闭摄像头</button>
+            <br>
+            <br>
+            <video id="video" width="500px" height="500px" autoplay="autoplay" style="display: none" ></video>
             <canvas id="canvas" width="500px" height="500px" style="display: none"></canvas>
 
         </div>
@@ -50,9 +63,10 @@
     var takephoto;
 
     function openMedia() {
-
+        $('#video').css('display', 'inline').attr("autoplay","autoplay");
         $('#openvideo').css('display', 'none');
-        $('#takephoto').css('display', 'block');
+        $('#takephoto').css('display', 'inline');
+        $('#closevideo').css('display', 'inline');
         let constraints = {
             video: {width: 500, height: 500},
             audio: true
@@ -66,7 +80,11 @@
             video.play();
         });
     }
+
     function make_face() {
+        $('#takephoto').css('display', 'none');
+        $('#closevideo').css('display', 'none');
+        $('#wait').empty().append('<img src="{% static 'images/wati.gif' %}">正在检测');
         takephoto = setInterval(takePhoto, 2000);
     }
 
@@ -83,7 +101,7 @@
         $.ajax({
             type: "POST",
             url: "{% url 'groupapp:face' %}",
-            data: {pp: img,mana:'add',um:num, csrfmiddlewaretoken: '{{ csrf_token }}'},
+            data: {pp: img, mana: 'add', um: num, csrfmiddlewaretoken: '{{ csrf_token }}'},
             success: function (msg) {
                 console.log(num);
                 if (msg === '1') {
@@ -93,10 +111,11 @@
                         alert('大饼脸图像采集完成！');
                         location.href = "{% url 'groupapp:login' %}?status=1"
                     }
+                } else if (msg === '2') {
+                    location.href = "{% url 'groupapp:register' %}"
                 }
-                else if (msg ==='2'){  location.href = "{% url 'groupapp:register' %}"  }
                 dont += 1;
-                 if (dont === 10) {
+                if (dont === 10) {
                     closeMedia();
                     alert('你这不是大饼脸！');
                 }
@@ -108,9 +127,11 @@
     function closeMedia() {
         clearInterval(takephoto);
         mediaStreamTrack.stop();
-        $('#video').css('display', 'none');
-        $('#openvideo').css('display', 'block');
         $('#takephoto').css('display', 'none');
+        $('#wait').empty();
+        $('#video').css('display', 'none');
+        $('#openvideo').css('display', 'inline');
+        $('#closevideo').css('display', 'none');
     }
 </script>
 

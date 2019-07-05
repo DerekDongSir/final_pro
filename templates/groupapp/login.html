@@ -72,8 +72,8 @@
         <h2>Login</h2>
         <form action="{% url 'groupapp:loginlogic' %}" method="post">
             {% csrf_token %}
-            <input type="text" name="name" onblur="check_name(this)" placeholder='USERNAME'>
-            <input type="password" name="password" onblur='check_password(this)' placeholder="PASSWORD">
+            <input type="text" name="name" onchange="check_name(this)" placeholder='USERNAME'>
+            <input type="password" name="password" onchange='check_password(this)' placeholder="PASSWORD">
 
             <div class="button-row">
                 <input type="button" class="sign-in" value="Sign In" onclick="mysubmit(this)">

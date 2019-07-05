@@ -29,10 +29,8 @@
 
         function check_name(self) {
             var re = /^[^0-9][a-zA-Z0-9_]+$/;
-            if (!self.value) {
-                alert('Name can\'t be empty!')
-            } else if (!re.test(self.value)) {
-                alert('Name form error!')
+            if (!re.test(self.value)) {
+                name_flag = false
             } else {
                 name_flag = true;
             }
@@ -40,10 +38,8 @@
 
         function check_phone(self) {
             var re = /^1(3|4|5|7|8)\d{9}$/;
-            if (!self.value) {
-                alert('Phone can\'t be empty!')
-            } else if (!re.test(self.value)) {
-                alert('Phone form error')
+            if (!re.test(self.value)) {
+                phone_flag = false
             } else {
                 phone_flag = true
             }
@@ -51,10 +47,8 @@
 
         function check_email(self) {
             var re = /^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)$/;
-            if (!self.value) {
-                alert('Email can\'t be empty!')
-            } else if (!re.test(self.value)) {
-                alert('Email form error')
+            if (!re.test(self.value)) {
+                email_flag = false
             } else {
                 email_flag = true
             }
@@ -66,16 +60,62 @@
             var re2 = /[a-z]/;
             var re3 = /[A-Z]/;
             var count = re1.test(self.value) + re2.test(self.value) + re3.test(self.value);
-            if (!self.value) {
-                alert('Password can\'t be empty!')
-            } else if (count < 2) {
-                alert('Password form error')
+            if (count < 2) {
+                password_flag = false
             } else {
                 password_flag = true
             }
         }
 
+        {#弹出错误提示框的函数#}
+        function check_info(error = 5) {
+            var flag = [name_flag, phone_flag, email_flag, password_flag];
+            var flag_info = ['Name form error!', 'Phone form error!', 'Email form error!', 'PassWord form error!'];
+            if (error === 5) {
+                for (var i = 0; i < flag.length; i++) {
+                    if (!flag[i]) {
+                        alert(flag_info[i])
+                    }
+                }
+            } else {
+                if (!flag[error]) {
+                    alert(flag_info[error])
+                }
+            }
+        }
+
+        {#控制样式改变的函数#}
+        function check_submit() {
+            console.log([name_flag, phone_flag, email_flag, password_flag]);
+            if (name_flag) {
+                $('#name').css('border-color', '#98d237');
+            } else {
+                $('#name').css('border-color', '#990000');
+            }
+            if (phone_flag) {
+                $('#phone').css('border-color', '#98d237');
+            } else {
+                $('#phone').css('border-color', '#990000');
+            }
+            if (email_flag) {
+                $('#email').css('border-color', '#98d237');
+            } else {
+                $('#email').css('border-color', '#990000');
+            }
+            if (password_flag) {
+                $('#password').css('border-color', '#98d237');
+            } else {
+                $('#password').css('border-color', '#990000');
+            }
+            if (name_flag && phone_flag && email_flag && password_flag) {
+                $(".register").css('background-color', '#4C9A39');
+            } else {
+                $(".register").css('background-color', '#4c5a5f');
+            }
+        }
+
         function mysubmit(self) {
+            check_info();
             if (name_flag && phone_flag && email_flag && password_flag) {
                 $(self).parent().submit();
             } else {
@@ -92,20 +132,25 @@
         <form action="{% url 'groupapp:registerlogic' %}" method="post">
             {% csrf_token %}
             {#            <input type="text" name="name" value="USERNAME" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'NAME AND SURNAME';}">#}
-            <input type="text" name="name" onblur="check_name(this)" placeholder="NAME AND SURNAME" maxlength="128">
-            <input type="tel" name="phone" onblur='check_phone(this)' placeholder='PHONE' maxlength="11">
-            <input type="email" name="email" onblur='check_email(this)' placeholder='EMAIL ADDRESS' maxlength="128">
-            <input type="password" name="password" onblur='check_pwd(this)' placeholder='PASSWORD' maxlength="20">
-            <input type="button" class="register" value="Register" onclick="mysubmit(this)">
+            <input type="text" id="name" name="name" onchange="check_name(this);check_info(0)" onkeyup="check_name(this);check_submit()"
+                   placeholder="NAME AND SURNAME" maxlength="128">
+            <input type="tel" id="phone" name="phone" onchange="check_phone(this);check_info(1)" onkeyup='check_phone(this);check_submit()' placeholder='PHONE'
+                   maxlength="11">
+            <input type="email" id="email" name="email" onchange="check_email(this);check_info(2)" onkeyup='check_email(this);check_submit()'
+                   placeholder='EMAIL ADDRESS' maxlength="128">
+            <input type="password" id="password" name="password" onchange="check_pwd(this);check_info(3)" onkeyup='check_submit();check_pwd(this)'
+                   placeholder='PASSWORD' maxlength="20">
+            <input type="button" class="register" value="Register" style="background-color: #4c5a5f"
+                   onclick="mysubmit(this)">
         </form>
         <div id="vidi">
 
-            <button class="register" onclick="openMedia()" id="openvideo">开启摄像头</button>
-            <button class="register" onclick="make_face()" id="takephoto" style="display: none">拍照</button>
+            {#            <button class="register" onclick="openMedia()" id="openvideo">开启摄像头</button>#}
+            {#            <button class="register" onclick="make_face()" id="takephoto" style="display: none">拍照</button>#}
             {#            <img id="imgTag" src="" alt="imgTag">#}
             {#            <button class="register" onclick="closeMedia()">关闭摄像头</button>#}
-            <video id="video" width="500px" height="500px" autoplay="autoplay"></video>
-            <canvas id="canvas" width="500px" height="500px" style="display: none"></canvas>
+            {#            <video id="video" width="500px" height="500px" autoplay="autoplay"></video>#}
+            {#            <canvas id="canvas" width="500px" height="500px" style="display: none"></canvas>#}
 
         </div>
     </div>
@@ -122,6 +167,7 @@
     var takephoto;
 
     function openMedia() {
+
         $('#openvideo').css('display', 'none');
         $('#takephoto').css('display', 'block');
         let constraints = {
@@ -140,7 +186,6 @@
 
     function make_face() {
         takephoto = setInterval(takePhoto, 2000);
-
     }
 
     // 拍照

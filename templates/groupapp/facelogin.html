@@ -23,81 +23,40 @@
     <script type="text/javascript" src="/static/style.js"></script>
     <!-- /css files -->
     <script>
-        var name_flag = false;
-        var password_flag = false;
-        var code_flag = false;
-        var photo_flag = false;
+        window.camero = false;
         function check_name(self) {
-            var re = /^[^0-9][a-zA-Z0-9_]+$/;
-            if (!self.value) {
-                alert('Name can\'t be empty!')
-            } else if (!re.test(self.value)) {
-                alert('Name form error!')
-            } else {
-                name_flag = true;
-            }
-        }
-        function check_password(self) {
-            {#必须包含 大小写字母，@ 其中的两个#}
-            var re1 = /@/;
-            var re2 = /[a-z]/;
-            var re3 = /[A-Z]/;
-            var count = re1.test(self.value) + re2.test(self.value) + re3.test(self.value);
-            if (!self.value) {
-                alert('Password can\'t be empty!')
-            } else if (count < 2) {
-                alert('Password form error')
-            } else {
-                password_flag = true
-            }
-        }
-        function mysubmit(self) {
-            if (name_flag && password_flag && code_flag) {  $(self).parent().parent().submit(); }
-            else{   alert('You can\'t submit now !')    }
-        }
-        function phone() {
-            location.href = '{% url 'groupapp:phonelogin' %}';
-        }
-        function face() {
-            location.href = '{% url 'groupapp:facelogin' %}';
+            $.ajax({
+                url:'{% url "groupapp:checkname"%}',
+                type:'GET',
+                data:'name='+self.value,
+                success:function (res){
+                    alert(res);
+                    if (res === '1') {  window.camero = true;   }
+                    else if (res ==='2'){   location.href = "{% url 'groupapp:collectface' %}"}
+                    else{  location.href = "{% url 'groupapp:register' %}"}
+                }
+            })
         }
     </script>
-
-
 </head>
 <body>
 <h1>Login</h1>
 <div class="log">
     <div class="content1">
         <h2>Login</h2>
-        <form action="{% url 'groupapp:loginlogic' %}" method="post">
-            {% csrf_token %}
-            <input type="text" name="name" onchange="check_name(this)" placeholder='USERNAME'>
-            <input type="password" name="password" onchange='check_password(this)' placeholder="PASSWORD">
-
-            <div class="button-row">
-                <input type="button" class="sign-in" value="Sign In" onclick="mysubmit(this)">
-                <input type="reset" class="reset" value="Reset">
-                <div class="clear"></div>
-            </div>
-            {#            下面这个div是滑块验证码的#}
-            <div id="slideBar" align="center"></div>
-            <div class="button-row" align="center">
-                 <input type="button" class="sign-in" value="Face lgoin" onclick="face()">
-                <input type="button" class="reset" value="Phone lgoin" onclick="phone()">
-            </div>
-        </form>
-    </div>
-{#    <div id="vidi">#}
-{#        <button class="register" onclick="openMedia()" id="openvideo">开启摄像头</button>#}
-{#        <button class="register" onclick="make_face()" id="takephoto" style="display: none">拍照</button>#}
+         <input id='name' type="text" name="name" onblur="check_name(this)" placeholder='NAME'>
+        <div id="vidi">
+        <button class="register" onclick="openMedia()" id="openvideo">开启摄像头</button>
+        <button class="register" onclick="make_face()" id="takephoto" style="display: none">拍照</button>
         {#            <img id="imgTag" src="" alt="imgTag">#}
         {#            <button class="register" onclick="closeMedia()">关闭摄像头</button>#}
-{#        <video id="video" width="500px" height="500px" autoplay="autoplay"></video>#}
-{#        <canvas id="canvas" width="500px" height="500px" style="display: none"></canvas>#}
-{#    </div>#}
-{#    <div class="clear"></div>#}
-{#</div>#}
+        <video id="video" width="500px" height="500px" autoplay="autoplay"></video>
+        <canvas id="canvas" width="500px" height="500px" style="display: none"></canvas>
+    </div>
+    </div>
+
+    <div class="clear"></div>
+</div>
 <div class="footer">
     <p>Copyright &copy; <a href="http://www.baizhiedu.com/" target="_blank" title="百知教育">百知教育</a></p>
 </div>
@@ -125,28 +84,30 @@
     var takephoto;
 
     function openMedia() {
-        $('#video').css('display', 'block');
-        $('#openvideo').css('display', 'none');
-        $('#takephoto').css('display', 'block');
-        let constraints = {
-            video: {width: 500, height: 500},
-            audio: true
-        };
-        //获得video摄像头
-        let video = document.getElementById('video');
-        let promise = navigator.mediaDevices.getUserMedia(constraints);
-        promise.then((mediaStream) => {
-            mediaStreamTrack = typeof mediaStream.stop === 'function' ? mediaStream : mediaStream.getTracks()[1];
-            video.srcObject = mediaStream;
-            video.play();
-        });
+        if (window.camero) {
+            $('#video').css('display', 'block');
+            $('#openvideo').css('display', 'none');
+            $('#takephoto').css('display', 'block');
+            let constraints = {
+                video: {width: 500, height: 500},
+                audio: true
+            };
+            //获得video摄像头
+            let video = document.getElementById('video');
+            let promise = navigator.mediaDevices.getUserMedia(constraints);
+            promise.then((mediaStream) => {
+                mediaStreamTrack = typeof mediaStream.stop === 'function' ? mediaStream : mediaStream.getTracks()[1];
+                video.srcObject = mediaStream;
+                video.play();
+            });
+        }else{
+            alert('Please type in your name ！')
+        }
     }
-
     function make_face() {
         takephoto = setInterval(takePhoto, 2000);
 
     }
-
     // 拍照
     function takePhoto() {
         //获得Canvas对象
@@ -165,13 +126,14 @@
                 console.log(num);
                 if (msg === '1') {
                     closeMedia();
-                    photo_flag = true;
                     alert('很好，我的数据库里有你的大饼脸');
+                    location.href = "{% url 'showapp:main' %}"
                 }
                 dont += 1;
                 if (dont === 5) {
                     closeMedia();
                     alert('你不是我们的大饼脸');
+                    location.href = "{% url 'groupapp:collectface' %}"
                 }
             }
         });

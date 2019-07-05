@@ -2,10 +2,9 @@ import base64
 import os
 import re
 import http.client
-import time
 from urllib import parse
 from django.shortcuts import render,HttpResponse,redirect
-from .models import User
+from .models import Person
 from django.db import transaction
 from groupapp.face_face import Face_to_Face as Fa
 
@@ -13,35 +12,69 @@ from groupapp.face_face import Face_to_Face as Fa
 def register(request):
     return  render(request,'groupapp/register.html')
 
-
 def registerlogic(request):
     if request.method == 'POST':
         name = request.POST.get('name')
         phone= request.POST.get('phone')
         email = request.POST.get('email')
         password = request.POST.get('password')
-        if User.objects.get(phone=phone,email=email):
+        if Person.objects.filter(name=name): # 用户名需要唯一
             return redirect('groupapp:register')
         with transaction.atomic():
-            user = User(name=name,phone=phone,email=email,password=password)
+            user = Person(name=name,phone=phone,email=email,password=password)
             user.save()
-            return redirect('groupapp:login')
+            request.session['name'] = name # 将注册后的name存入cookie,便于人脸识别时使用
+            return redirect('groupapp:collectface')
     return redirect('groupapp:register')
+
+def collect_face(request):
+    if request.session.get('name'):
+        return  render(request,'groupapp/collect_face.html')
+    return redirect('groupapp:register') # 如果session中不存在用户名信息，返回注册页面
 
 
 def login (request):
+    status = request.GET.get('status') #如果时从人脸识别部分进行登录，会传递状态参数
+    if status == '1':
+        name = request.session.get('name')
+        user = Person.objects.get(name=name)
+        user.status = 1
+        user.save()
     return render(request,'groupapp/login.html')
 
 def loginlogic(request):
     if request.method == 'POST':
         name = request.POST.get('name')
-        password = request.POST.get('password')
-        if User.objects.get(name=name,password=password):
-            return redirect('groupapp:home')
+        user = Person.objects.get(name=name)
+        if not user: # 用户名查询不到，返回用户注册页面
+            return redirect('groupapp:register')
+        else:  # 用户名能够查询到
+            if not user.status:  #人脸识别状态未被激活，返回人脸采集页面
+                request.session['name'] = name # 将用户名保存进cookie
+                return redirect('groupapp:collectface')
+            password = request.POST.get('password')  # 状态处于被激活状态，取密码进行验证
+            if Person.objects.get(name=name,password=password):
+                return redirect('showapp:main')
+            return redirect('groupapp:login') # 密码错误，继续登录
     return redirect('groupapp:login')
 
 def phonelogin(request):
     return  render(request,'groupapp/phonelogin.html')
+
+def facelogin(request):
+
+    return render(request,'groupapp/facelogin.html')
+
+def check_name(request):
+    name = request.GET.get('name')
+    if Person.objects.filter(name=name):
+        user = Person.objects.get(name=name)
+        if user.status:  # 有名可查，且状态已被激活，
+            return HttpResponse('1') #允许人脸识别登录
+        request.session['name'] = name # 将name存入cookie,便于下一步人脸信息采集
+        return HttpResponse('2') # 返回到人脸收集页面
+    return HttpResponse('3') #  返回到注册页面。
+
 
 def send_sms(mobile,account  = 'C37538922',password = '50bcebbf62f2455d9483f9002fbc1781'):
     # 用户名是登录用户中心->验证码短信->产品总览->APIID
@@ -60,8 +93,6 @@ def send_sms(mobile,account  = 'C37538922',password = '50bcebbf62f2455d9483f9002
     # conn.close()
     return code
 
-
-
 def send_code(request):
     phone = request.GET.get('phone')
     if re.match(r"^1(3|4|5|7|8)\d{9}$",phone):
@@ -75,14 +106,13 @@ def phonelogic(request):
         phone = request.POST.get('phone')
         code = request.POST.get('code')
         if request.session.get(phone) == code:
-            return redirect('groupapp:home')
+            return redirect('showapp:main')
     return redirect('groupapp:phonelogin')
 
-def home(request):
-    return  render(request,'groupapp/menu.html')
-
 def add_user_face(request):
-    name = request.POST.get('name')
+    name = request.session.get('name')
+    if not name:
+        return HttpResponse('2') # 用户名不存在，返回到注册页面
     mana=request.POST.get('mana')
     fa_im = request.POST.get('pp').replace("data:image/jpeg;base64,", "")
     num = request.POST.get('um')

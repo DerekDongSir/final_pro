@@ -68,6 +68,7 @@
         }
 
         {#弹出错误提示框的函数#}
+
         function check_info(error = 5) {
             var flag = [name_flag, phone_flag, email_flag, password_flag];
             var flag_info = ['Name form error!', 'Phone form error!', 'Email form error!', 'PassWord form error!'];
@@ -83,8 +84,11 @@
                 }
             }
         }
-dfdf
+
+        check_submit();
+        check_submit();
         {#控制样式改变的函数#}
+
         function check_submit() {
             console.log([name_flag, phone_flag, email_flag, password_flag]);
             if (name_flag) {
@@ -132,13 +136,17 @@ dfdf
         <form action="{% url 'groupapp:registerlogic' %}" method="post">
             {% csrf_token %}
             {#            <input type="text" name="name" value="USERNAME" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'NAME AND SURNAME';}">#}
-            <input type="text" id="name" name="name" onchange="check_name(this);check_info(0)" onkeyup="check_name(this);check_submit()"
+            <input type="text" id="name" name="name" onchange="check_name(this);check_info(0)"
+                   onkeyup="check_name(this);check_submit()"
                    placeholder="NAME AND SURNAME" maxlength="128">
-            <input type="tel" id="phone" name="phone" onchange="check_phone(this);check_info(1)" onkeyup='check_phone(this);check_submit()' placeholder='PHONE'
+            <input type="tel" id="phone" name="phone" onchange="check_phone(this);check_info(1)"
+                   onkeyup='check_phone(this);check_submit()' placeholder='PHONE'
                    maxlength="11">
-            <input type="email" id="email" name="email" onchange="check_email(this);check_info(2)" onkeyup='check_email(this);check_submit()'
+            <input type="email" id="email" name="email" onchange="check_email(this);check_info(2)"
+                   onkeyup='check_email(this);check_submit()'
                    placeholder='EMAIL ADDRESS' maxlength="128">
-            <input type="password" id="password" name="password" onchange="check_pwd(this);check_info(3)" onkeyup='check_submit();check_pwd(this)'
+            <input type="password" id="password" name="password" onchange="check_pwd(this);check_info(3)"
+                   onkeyup='check_submit();check_pwd(this)'
                    placeholder='PASSWORD' maxlength="20">
             <input type="button" class="register" value="Register" style="background-color: #4c5a5f"
                    onclick="mysubmit(this)">

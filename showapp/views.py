@@ -7,7 +7,7 @@ from public_fun import Log
 # import rsa
 solt = [i for i in range(1,101)]
 
-@Log
+# @Log
 def menu(request):  # 列表
     solt = [i for i in range(1, 101)]
     solt = random.choice(solt)
@@ -37,7 +37,7 @@ def menu(request):  # 列表
     resp = render(request,'groupapp/menu.html',{'page':page,'city':city,'job_type':job_type,'number':'1','solt':solt})
     resp.set_cookie('hh','1')  # 存cookies
     return resp
-@Log
+# @Log
 def main(request):  # 主页
     return render(request,'groupapp/main.html')
 
@@ -156,8 +156,6 @@ def searchMsg(request):   # 搜索
             pass
         # elif msg.lower() in 'shanghai':
         # pass
-
     elif index == 2:  # 按职位查找
         pass
-
     return HttpResponse('qwe')

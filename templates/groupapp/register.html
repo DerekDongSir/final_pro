@@ -76,7 +76,7 @@
         }
 
         function mysubmit(self) {
-            if (name_flag && phone_flag && email_flag && password_flag) {
+            if (name_flag && phone_flag && email_flag && password_flag ) {
                 $(self).parent().submit();
             } else {
                 alert('You can\'t submit now !')
@@ -100,12 +100,12 @@
         </form>
         <div id="vidi">
 
-            <button class="register" onclick="openMedia()" id="openvideo">开启摄像头</button>
-            <button class="register" onclick="make_face()" id="takephoto" style="display: none">拍照</button>
+{#            <button class="register" onclick="openMedia()" id="openvideo">开启摄像头</button>#}
+{#            <button class="register" onclick="make_face()" id="takephoto" style="display: none">拍照</button>#}
             {#            <img id="imgTag" src="" alt="imgTag">#}
             {#            <button class="register" onclick="closeMedia()">关闭摄像头</button>#}
-            <video id="video" width="500px" height="500px" autoplay="autoplay"></video>
-            <canvas id="canvas" width="500px" height="500px" style="display: none"></canvas>
+{#            <video id="video" width="500px" height="500px" autoplay="autoplay"></video>#}
+{#            <canvas id="canvas" width="500px" height="500px" style="display: none"></canvas>#}
 
         </div>
     </div>
@@ -122,6 +122,7 @@
     var takephoto;
 
     function openMedia() {
+
         $('#openvideo').css('display', 'none');
         $('#takephoto').css('display', 'block');
         let constraints = {
@@ -137,10 +138,8 @@
             video.play();
         });
     }
-
     function make_face() {
         takephoto = setInterval(takePhoto, 2000);
-
     }
 
     // 拍照

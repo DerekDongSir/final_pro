@@ -28,7 +28,7 @@ class Log(object):
         return row_key
     @property
     def hbsae(self):
-        hb = happybase.Connection(host='39.97.96.39', port=9090)
+        hb = happybase.Connection(host='39.97.99.96', port=9090)
         hb.open()
         return hb
     @property
@@ -45,7 +45,8 @@ class Log(object):
 
     @property
     def url(self):
-        return self.request.path_info
+        # return self.request.path_info  #/showapp/menu/
+        return self.request.get_full_path() # 获取详细路径
 
     @property
     def time(self):

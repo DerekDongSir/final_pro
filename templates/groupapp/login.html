@@ -7,9 +7,11 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <meta name="keywords" content=""/>
     <script src="/static/scripts/jquery/jquery-1.4.4.min.js"></script>
+    <script src="{% static 'md5.js' %}"></script>
     <script type="application/x-javascript"> addEventListener("load", function () {
         setTimeout(hideURLbar, 0);
     }, false);
+
     function hideURLbar() {
         window.scrollTo(0, 1);
     } </script>
@@ -27,6 +29,8 @@
         var password_flag = false;
         var code_flag = false;
         var photo_flag = false;
+        var code = '';
+
         function check_name(self) {
             var re = /^[^0-9][a-zA-Z0-9_]+$/;
             if (!self.value) {
@@ -37,6 +41,7 @@
                 name_flag = true;
             }
         }
+
         function check_password(self) {
             {#必须包含 大小写字母，@ 其中的两个#}
             var re1 = /@/;
@@ -51,13 +56,36 @@
                 password_flag = true
             }
         }
-        function mysubmit(self) {
-            if (name_flag && password_flag && code_flag) {  $(self).parent().parent().submit(); }
-            else{   alert('You can\'t submit now !')    }
+
+        function check_submit() {
+            $.ajaxSetup({
+                data: {csrfmiddlewaretoken: '{{ csrf_token }}'}
+            });
+            var loginurl = '{% url "groupapp:loginlogic" %}';
+            $.ajax({
+                acycl: false,
+                type: "POST",
+                url: "{% url 'groupapp:check_code' %}",
+                data: "csrfmiddlewaretoken=" + "{{ csrf_token }}",
+                success: function (data) {
+                    code = data;
+                    setTimeout('SliderBar("slideBar", options,code)', 500)
+                }
+            });
         }
+
+        function mysubmit(self) {
+            if (name_flag && password_flag && code_flag) {
+                $(self).parent().parent().submit();
+            } else {
+                alert('You can\'t submit now !')
+            }
+        }
+
         function phone() {
             location.href = '{% url 'groupapp:phonelogin' %}';
         }
+
         function face() {
             location.href = '{% url 'groupapp:facelogin' %}';
         }
@@ -74,118 +102,121 @@
             {% csrf_token %}
             <input type="text" name="name" onchange="check_name(this)" placeholder='USERNAME'>
             <input type="password" name="password" onchange='check_password(this)' placeholder="PASSWORD">
-
+            {#mysubmit(this)#}
             <div class="button-row">
-                <input type="button" class="sign-in" value="Sign In" onclick="mysubmit(this)">
+                <input type="button" class="sign-in" value="Sign In" onclick="check_submit()">
                 <input type="reset" class="reset" value="Reset">
                 <div class="clear"></div>
             </div>
             {#            下面这个div是滑块验证码的#}
-            <div id="slideBar" align="center"></div>
-            <div class="button-row" align="center">
-                 <input type="button" class="sign-in" value="Face lgoin" onclick="face()">
-                <input type="button" class="reset" value="Phone lgoin" onclick="phone()">
+            <div id="check_img">
+                <div id="slideBar" align="center"></div>
+                <div class="button-row" align="center">
+                    <input type="button" class="sign-in" value="Face lgoin" onclick="face()">
+                    <input type="button" class="reset" value="Phone lgoin" onclick="phone()">
+                </div>
             </div>
         </form>
     </div>
-{#    <div id="vidi">#}
-{#        <button class="register" onclick="openMedia()" id="openvideo">开启摄像头</button>#}
-{#        <button class="register" onclick="make_face()" id="takephoto" style="display: none">拍照</button>#}
-        {#            <img id="imgTag" src="" alt="imgTag">#}
-        {#            <button class="register" onclick="closeMedia()">关闭摄像头</button>#}
-{#        <video id="video" width="500px" height="500px" autoplay="autoplay"></video>#}
-{#        <canvas id="canvas" width="500px" height="500px" style="display: none"></canvas>#}
-{#    </div>#}
-{#    <div class="clear"></div>#}
-{#</div>#}
-<div class="footer">
-    <p>Copyright &copy; <a href="http://www.baizhiedu.com/" target="_blank" title="百知教育">百知教育</a></p>
-</div>
-<script type="text/javascript">
-    var dataList = ["0", "1"];
-    {#这个不用动#}
-    var options = {
-        dataList: dataList,
-        success: function () {
-            {#成功时返回的数据#}
-            code_flag = true;
-        },
-        fail: function () {
-            {#失败时返回的 数据#}
-            {#console.log("fail");#}
-        }
-    };
-    SliderBar("slideBar", options);
-</script>
-
-<script>
-    let mediaStreamTrack = null; // 视频对象(全局)
-    window.num = 0;
-    var dont = 0;
-    var takephoto;
-
-    function openMedia() {
-        $('#video').css('display', 'block');
-        $('#openvideo').css('display', 'none');
-        $('#takephoto').css('display', 'block');
-        let constraints = {
-            video: {width: 500, height: 500},
-            audio: true
-        };
-        //获得video摄像头
-        let video = document.getElementById('video');
-        let promise = navigator.mediaDevices.getUserMedia(constraints);
-        promise.then((mediaStream) => {
-            mediaStreamTrack = typeof mediaStream.stop === 'function' ? mediaStream : mediaStream.getTracks()[1];
-            video.srcObject = mediaStream;
-            video.play();
-        });
-    }
-
-    function make_face() {
-        takephoto = setInterval(takePhoto, 2000);
-
-    }
-
-    // 拍照
-    function takePhoto() {
-        //获得Canvas对象
-        let video = document.getElementById('video');
-        let canvas = document.getElementById('canvas');
-        let ctx = canvas.getContext('2d');
-        ctx.drawImage(video, 0, 0, 500, 500);
-        // toDataURL  ---  可传入'image/png'---默认, 'image/jpeg'
-        let img = document.getElementById('canvas').toDataURL().substring(22);
-        $('#canvas').css('display', 'none');
-        $.ajax({
-            type: "POST",
-            url: "{% url 'groupapp:face' %}",
-            data: {pp: img, name: 'hehe',um: dont, csrfmiddlewaretoken: '{{ csrf_token }}'},
-            success: function (msg) {
-                console.log(num);
-                if (msg === '1') {
-                    closeMedia();
-                    photo_flag = true;
-                    alert('很好，我的数据库里有你的大饼脸');
-                }
-                dont += 1;
-                if (dont === 5) {
-                    closeMedia();
-                    alert('你不是我们的大饼脸');
-                }
+    {#    <div id="vidi">#}
+    {#        <button class="register" onclick="openMedia()" id="openvideo">开启摄像头</button>#}
+    {#        <button class="register" onclick="make_face()" id="takephoto" style="display: none">拍照</button>#}
+    {#            <img id="imgTag" src="" alt="imgTag">#}
+    {#            <button class="register" onclick="closeMedia()">关闭摄像头</button>#}
+    {#        <video id="video" width="500px" height="500px" autoplay="autoplay"></video>#}
+    {#        <canvas id="canvas" width="500px" height="500px" style="display: none"></canvas>#}
+    {#    </div>#}
+    {#    <div class="clear"></div>#}
+    {#</div>#}
+    <div class="footer">
+        <p>Copyright &copy; <a href="http://www.baizhiedu.com/" target="_blank" title="百知教育">百知教育</a></p>
+    </div>
+    <script type="text/javascript">
+        var dataList = ["0", "1"];
+        {#这个不用动#}
+        var options = {
+            dataList: dataList,
+            success: function () {
+                {#成功时返回的数据#}
+                code_flag = true;
+            },
+            fail: function () {
+                {#失败时返回的 数据#}
+                {#console.log("fail");#}
+                code_flag = false;
+                return check_submit();
             }
-        });
-    }
+        };
+    </script>
 
-    // 关闭摄像头
-    function closeMedia() {
-        clearInterval(takephoto);
-        mediaStreamTrack.stop();
-        $('#video').css('display', 'none');
-        $('#openvideo').css('display', 'block');
-        $('#takephoto').css('display', 'none');
-    }
-</script>
+    <script>
+        let mediaStreamTrack = null; // 视频对象(全局)
+        window.num = 0;
+        var dont = 0;
+        var takephoto;
+
+        function openMedia() {
+            $('#video').css('display', 'block');
+            $('#openvideo').css('display', 'none');
+            $('#takephoto').css('display', 'block');
+            let constraints = {
+                video: {width: 500, height: 500},
+                audio: true
+            };
+            //获得video摄像头
+            let video = document.getElementById('video');
+            let promise = navigator.mediaDevices.getUserMedia(constraints);
+            promise.then((mediaStream) => {
+                mediaStreamTrack = typeof mediaStream.stop === 'function' ? mediaStream : mediaStream.getTracks()[1];
+                video.srcObject = mediaStream;
+                video.play();
+            });
+        }
+
+        function make_face() {
+            takephoto = setInterval(takePhoto, 2000);
+
+        }
+
+        // 拍照
+        function takePhoto() {
+            //获得Canvas对象
+            let video = document.getElementById('video');
+            let canvas = document.getElementById('canvas');
+            let ctx = canvas.getContext('2d');
+            ctx.drawImage(video, 0, 0, 500, 500);
+            // toDataURL  ---  可传入'image/png'---默认, 'image/jpeg'
+            let img = document.getElementById('canvas').toDataURL().substring(22);
+            $('#canvas').css('display', 'none');
+            $.ajax({
+                type: "POST",
+                url: "{% url 'groupapp:face' %}",
+                data: {pp: img, name: 'hehe', um: dont, csrfmiddlewaretoken: '{{ csrf_token }}'},
+                success: function (msg) {
+                    console.log(num);
+                    if (msg === '1') {
+                        closeMedia();
+                        photo_flag = true;
+                        alert('很好，我的数据库里有你的大饼脸');
+                    }
+                    dont += 1;
+                    if (dont === 5) {
+                        closeMedia();
+                        alert('你不是我们的大饼脸');
+                    }
+                }
+            });
+        }
+
+        // 关闭摄像头
+        function closeMedia() {
+            clearInterval(takephoto);
+            mediaStreamTrack.stop();
+            $('#video').css('display', 'none');
+            $('#openvideo').css('display', 'block');
+            $('#takephoto').css('display', 'none');
+        }
+    </script>
 
 
 </body>

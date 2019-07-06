@@ -14,4 +14,5 @@ urlpatterns = [
     path('checkname/',views.check_name,name='checkname'),
     path('sendcode/', views.send_code, name='sendcode'),
     path('add_face/', views.add_user_face, name='face'),
+    path('check_code/',views.check_code, name='check_code'),
 ]

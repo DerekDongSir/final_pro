@@ -2,12 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="289cdb33-931d-47c0-b3f1-6a3cd2fb5310" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/static/md5.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/groupapp/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/groupapp/urls.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/groupapp/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/groupapp/views.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/style.js" beforeDir="false" afterPath="$PROJECT_DIR$/static/style.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/groupapp/login.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/groupapp/login.html" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -281,11 +276,18 @@
       <option name="project" value="LOCAL" />
       <updated>1562324152828</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="调整登录注册时候的views逻辑：&#10;1.注册时，人脸识别摄像头的按钮调整，自动关闭，按钮的隐藏于显示。&#10;2.登录时，验证的显示逻辑，从后端获取随机验证码的逻辑。&#10;3.后端生成随机验证码，以{uuid（随机不重复命名）:random（随机字符串）}存session，cookie存uuid，发送random的随机字符串做验证码。&#10;4.滑块验证码的js文件中，对随机验证码进行加密处理，当滑块滑动到正确位置时，才会将用户名、密码、加密后的验证码传回后端。&#10;5.后端验证，取session和cookie，对值进行加密，对传回来加密后的验证码和加密后的值进行比对，如果一致，则验证通过，继续比对用户名和密码。">
+      <created>1562407668142</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1562407668142</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="50812000" />
+    <option name="totallyTimeSpent" value="51489000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -298,9 +300,8 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
-    <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.14498934" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.14498934" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -313,7 +314,7 @@
       <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
       <window_info anchor="bottom" id="Version Control" order="8" weight="0.329718" />
       <window_info anchor="bottom" id="Database Changes" order="9" />
-      <window_info anchor="bottom" id="Terminal" order="10" sideWeight="0.49946696" visible="true" weight="0.39045554" />
+      <window_info active="true" anchor="bottom" id="Terminal" order="10" sideWeight="0.49946696" visible="true" weight="0.39045554" />
       <window_info anchor="bottom" id="Python Console" order="11" weight="0.329718" />
       <window_info anchor="bottom" id="Event Log" order="12" sideWeight="0.50053304" side_tool="true" weight="0.329718" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
@@ -357,7 +358,8 @@
     <MESSAGE value="登录注册验证状态的逻辑完成。&#10;未完成的部分是：图像录入成功和图像匹配成功或失败后，页面的反馈方向。" />
     <MESSAGE value="注册页面的JS逻辑完善，已经完成" />
     <MESSAGE value="注册时人脸识别的bug修正" />
-    <option name="LAST_COMMIT_MESSAGE" value="注册时人脸识别的bug修正" />
+    <MESSAGE value="调整登录注册时候的views逻辑：&#10;1.注册时，人脸识别摄像头的按钮调整，自动关闭，按钮的隐藏于显示。&#10;2.登录时，验证的显示逻辑，从后端获取随机验证码的逻辑。&#10;3.后端生成随机验证码，以{uuid（随机不重复命名）:random（随机字符串）}存session，cookie存uuid，发送random的随机字符串做验证码。&#10;4.滑块验证码的js文件中，对随机验证码进行加密处理，当滑块滑动到正确位置时，才会将用户名、密码、加密后的验证码传回后端。&#10;5.后端验证，取session和cookie，对值进行加密，对传回来加密后的验证码和加密后的值进行比对，如果一致，则验证通过，继续比对用户名和密码。" />
+    <option name="LAST_COMMIT_MESSAGE" value="调整登录注册时候的views逻辑：&#10;1.注册时，人脸识别摄像头的按钮调整，自动关闭，按钮的隐藏于显示。&#10;2.登录时，验证的显示逻辑，从后端获取随机验证码的逻辑。&#10;3.后端生成随机验证码，以{uuid（随机不重复命名）:random（随机字符串）}存session，cookie存uuid，发送random的随机字符串做验证码。&#10;4.滑块验证码的js文件中，对随机验证码进行加密处理，当滑块滑动到正确位置时，才会将用户名、密码、加密后的验证码传回后端。&#10;5.后端验证，取session和cookie，对值进行加密，对传回来加密后的验证码和加密后的值进行比对，如果一致，则验证通过，继续比对用户名和密码。" />
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/static/style.css">

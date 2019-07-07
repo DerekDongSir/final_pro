@@ -1,7 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="289cdb33-931d-47c0-b3f1-6a3cd2fb5310" name="Default Changelist" comment="" />
+    <list default="true" id="289cdb33-931d-47c0-b3f1-6a3cd2fb5310" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/static/check_huakuai.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/static/lock.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/templates/test.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/groupapp/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/groupapp/urls.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/groupapp/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/groupapp/views.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/jquery.1.8.3.min.js" beforeDir="false" afterPath="$PROJECT_DIR$/static/jquery.1.8.3.min.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/scripts/jquery/jquery-1.4.4.min.js" beforeDir="false" afterPath="$PROJECT_DIR$/static/scripts/jquery/jquery-1.4.4.min.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/scripts/jquery/jquery-1.7.1.js" beforeDir="false" afterPath="$PROJECT_DIR$/static/scripts/jquery/jquery-1.7.1.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/scripts/zTree/jquery.ztree.all-3.2.js" beforeDir="false" afterPath="$PROJECT_DIR$/static/scripts/zTree/jquery.ztree.all-3.2.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/scripts/zTree/jquery.ztree.all-3.2.min.js" beforeDir="false" afterPath="$PROJECT_DIR$/static/scripts/zTree/jquery.ztree.all-3.2.min.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/scripts/zTree/jquery.ztree.core-3.2.js" beforeDir="false" afterPath="$PROJECT_DIR$/static/scripts/zTree/jquery.ztree.core-3.2.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/scripts/zTree/jquery.ztree.core-3.2.min.js" beforeDir="false" afterPath="$PROJECT_DIR$/static/scripts/zTree/jquery.ztree.core-3.2.min.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/groupapp/login.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/groupapp/login.html" afterDir="false" />
+    </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -13,14 +28,89 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/groupapp/views.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="314">
-              <caret line="177" selection-start-line="177" selection-end-line="177" />
+            <state relative-caret-position="674">
+              <caret line="179" column="39" selection-start-line="179" selection-start-column="39" selection-end-line="179" selection-end-column="39" />
               <folding>
                 <element signature="e#0#13#0" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/groupapp/face_face.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="33">
+              <caret line="1" column="26" lean-forward="true" selection-start-line="1" selection-start-column="26" selection-end-line="1" selection-end-column="42" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/templates/groupapp/login.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="528">
+              <caret line="22" column="22" lean-forward="true" selection-start-line="22" selection-start-column="22" selection-end-line="22" selection-end-column="22" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/templates/groupapp/register.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="132">
+              <caret line="7" column="4" selection-start-line="7" selection-start-column="4" selection-end-line="7" selection-end-column="70" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/static/style.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="2871">
+              <caret line="87" column="43" lean-forward="true" selection-start-line="87" selection-start-column="43" selection-end-line="87" selection-end-column="43" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/groupapp/urls.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="561">
+              <caret line="17" column="25" selection-start-line="17" selection-start-column="25" selection-end-line="17" selection-end-column="25" />
+              <folding>
+                <element signature="e#0#28#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/static/lock.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="528">
+              <caret line="25" column="13" selection-start-line="25" selection-start-column="13" selection-end-line="25" selection-end-column="13" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/static/check_huakuai.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state>
+              <caret column="10" selection-start-column="10" selection-end-column="10" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/templates/test.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="198">
+              <caret line="12" column="26" selection-start-line="12" selection-start-column="26" selection-end-line="12" selection-end-column="26" />
             </state>
           </provider>
         </entry>
@@ -30,6 +120,7 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
+        <option value="HTML File" />
         <option value="JavaScript File" />
       </list>
     </option>
@@ -68,21 +159,24 @@
         <option value="$PROJECT_DIR$/groupapp/face_face.py" />
         <option value="$PROJECT_DIR$/templates/groupapp/register.html" />
         <option value="$PROJECT_DIR$/templates/groupapp/collect_face.html" />
-        <option value="$PROJECT_DIR$/groupapp/urls.py" />
         <option value="$PROJECT_DIR$/static/style/md5.js" />
         <option value="$PROJECT_DIR$/final_pro/settings.py" />
         <option value="$PROJECT_DIR$/manage.py" />
-        <option value="$PROJECT_DIR$/groupapp/views.py" />
-        <option value="$PROJECT_DIR$/templates/groupapp/login.html" />
         <option value="$PROJECT_DIR$/static/style.js" />
+        <option value="$PROJECT_DIR$/groupapp/views.py" />
+        <option value="$PROJECT_DIR$/groupapp/urls.py" />
+        <option value="$PROJECT_DIR$/templates/text.html" />
+        <option value="$PROJECT_DIR$/static/huakuai.js" />
+        <option value="$PROJECT_DIR$/static/text.js" />
+        <option value="$PROJECT_DIR$/templates/groupapp/login.html" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="-1928" />
-    <option name="y" value="-8" />
-    <option name="width" value="2420" />
-    <option name="height" value="1100" />
+    <option name="x" value="-25" />
+    <option name="y" value="3" />
+    <option name="width" value="1936" />
+    <option name="height" value="880" />
   </component>
   <component name="ProjectLevelVcsManager">
     <ConfirmationsSetting value="2" id="Add" />
@@ -118,18 +212,6 @@
             <path>
               <item name="final_pro" type="b2602c69:ProjectViewProjectNode" />
               <item name="final_pro" type="462c0819:PsiDirectoryNode" />
-              <item name="static" type="462c0819:PsiDirectoryNode" />
-              <item name="images" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="final_pro" type="b2602c69:ProjectViewProjectNode" />
-              <item name="final_pro" type="462c0819:PsiDirectoryNode" />
-              <item name="static" type="462c0819:PsiDirectoryNode" />
-              <item name="style" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="final_pro" type="b2602c69:ProjectViewProjectNode" />
-              <item name="final_pro" type="462c0819:PsiDirectoryNode" />
               <item name="templates" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
@@ -156,6 +238,7 @@
     </panes>
   </component>
   <component name="PropertiesComponent">
+    <property name="DefaultHtmlFileTemplate" value="HTML File" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="last_opened_file_path" value="C:/Python/PyCharmWorkspace/new_project" />
@@ -163,6 +246,7 @@
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\32735\Desktop\final_pro\static\image" />
       <recent name="C:\Users\32735\Desktop\final_pro\static" />
       <recent name="C:\Users\32735\Desktop\final_pro\templates\yanzhengma_huakuai" />
     </key>
@@ -183,6 +267,9 @@
     </option>
   </component>
   <component name="RunManager">
+    <configuration name="test.html" type="JavascriptDebugType" temporary="true" nameIsGenerated="true" uri="http://localhost:63342/final_pro/templates/test.html" useBuiltInWebServerPort="true">
+      <method v="2" />
+    </configuration>
     <configuration default="true" type="Python.DjangoServer" factoryName="Django server">
       <output_file path="C:/Python" is_save="true" />
       <module name="final_pro" />
@@ -207,6 +294,11 @@
       <option name="customRunCommand" value="http://127.0.0.1:8000/" />
       <method v="2" />
     </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="JavaScript Debug.test.html" />
+      </list>
+    </recent_temporary>
   </component>
   <component name="SvnConfiguration">
     <configuration />
@@ -276,11 +368,18 @@
       <option name="project" value="LOCAL" />
       <updated>1562407668142</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="微调随机图片">
+      <created>1562408124071</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1562408124071</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="51545000" />
+    <option name="totallyTimeSpent" value="62298000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -295,11 +394,11 @@
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.14498934" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.14498934" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
-      <window_info anchor="bottom" id="Find" order="1" />
+      <window_info anchor="bottom" id="Find" order="1" weight="0.329718" />
       <window_info anchor="bottom" id="Run" order="2" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
@@ -308,7 +407,7 @@
       <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
       <window_info anchor="bottom" id="Version Control" order="8" weight="0.329718" />
       <window_info anchor="bottom" id="Database Changes" order="9" />
-      <window_info active="true" anchor="bottom" id="Terminal" order="10" sideWeight="0.49946696" visible="true" weight="0.39045554" />
+      <window_info anchor="bottom" id="Terminal" order="10" sideWeight="0.49946696" weight="0.2516269" />
       <window_info anchor="bottom" id="Python Console" order="11" weight="0.329718" />
       <window_info anchor="bottom" id="Event Log" order="12" sideWeight="0.50053304" side_tool="true" weight="0.329718" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
@@ -353,7 +452,8 @@
     <MESSAGE value="注册页面的JS逻辑完善，已经完成" />
     <MESSAGE value="注册时人脸识别的bug修正" />
     <MESSAGE value="调整登录注册时候的views逻辑：&#10;1.注册时，人脸识别摄像头的按钮调整，自动关闭，按钮的隐藏于显示。&#10;2.登录时，验证的显示逻辑，从后端获取随机验证码的逻辑。&#10;3.后端生成随机验证码，以{uuid（随机不重复命名）:random（随机字符串）}存session，cookie存uuid，发送random的随机字符串做验证码。&#10;4.滑块验证码的js文件中，对随机验证码进行加密处理，当滑块滑动到正确位置时，才会将用户名、密码、加密后的验证码传回后端。&#10;5.后端验证，取session和cookie，对值进行加密，对传回来加密后的验证码和加密后的值进行比对，如果一致，则验证通过，继续比对用户名和密码。" />
-    <option name="LAST_COMMIT_MESSAGE" value="调整登录注册时候的views逻辑：&#10;1.注册时，人脸识别摄像头的按钮调整，自动关闭，按钮的隐藏于显示。&#10;2.登录时，验证的显示逻辑，从后端获取随机验证码的逻辑。&#10;3.后端生成随机验证码，以{uuid（随机不重复命名）:random（随机字符串）}存session，cookie存uuid，发送random的随机字符串做验证码。&#10;4.滑块验证码的js文件中，对随机验证码进行加密处理，当滑块滑动到正确位置时，才会将用户名、密码、加密后的验证码传回后端。&#10;5.后端验证，取session和cookie，对值进行加密，对传回来加密后的验证码和加密后的值进行比对，如果一致，则验证通过，继续比对用户名和密码。" />
+    <MESSAGE value="微调随机图片" />
+    <option name="LAST_COMMIT_MESSAGE" value="微调随机图片" />
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/static/style.css">
@@ -392,22 +492,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/static/jquery.1.8.3.min.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <folding>
-            <element signature="n#!!doc" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/templates/groupapp/register.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-5125">
-          <caret line="69" column="22" selection-start-line="69" selection-start-column="22" selection-end-line="69" selection-end-column="22" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/static/md5.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="2776">
@@ -435,16 +519,6 @@
           <caret line="6" column="8" selection-start-line="6" selection-start-column="8" selection-end-line="6" selection-end-column="8" />
           <folding>
             <element signature="e#22#31#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/groupapp/face_face.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="413">
-          <caret line="78" lean-forward="true" selection-start-line="78" selection-end-line="78" />
-          <folding>
-            <element signature="e#0#21#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -482,37 +556,81 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/groupapp/face_face.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="33">
+          <caret line="1" column="26" lean-forward="true" selection-start-line="1" selection-start-column="26" selection-end-line="1" selection-end-column="42" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/groupapp/register.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="132">
+          <caret line="7" column="4" selection-start-line="7" selection-start-column="4" selection-end-line="7" selection-end-column="70" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/static/style.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2871">
+          <caret line="87" column="43" lean-forward="true" selection-start-line="87" selection-start-column="43" selection-end-line="87" selection-end-column="43" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/test.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="198">
+          <caret line="12" column="26" selection-start-line="12" selection-start-column="26" selection-end-line="12" selection-end-column="26" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/static/jquery.1.8.3.min.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <folding>
+            <element signature="n#!!doc" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/groupapp/login.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="528">
+          <caret line="22" column="22" lean-forward="true" selection-start-line="22" selection-start-column="22" selection-end-line="22" selection-end-column="22" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/groupapp/urls.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="107">
-          <caret line="8" column="16" selection-start-line="8" selection-start-column="10" selection-end-line="8" selection-end-column="16" />
+        <state relative-caret-position="561">
+          <caret line="17" column="25" selection-start-line="17" selection-start-column="25" selection-end-line="17" selection-end-column="25" />
           <folding>
             <element signature="e#0#28#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/static/style.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="50">
-          <caret line="198" column="68" lean-forward="true" selection-start-line="198" selection-start-column="68" selection-end-line="198" selection-end-column="68" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/templates/groupapp/login.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="283">
-          <caret line="74" column="9" lean-forward="true" selection-start-line="74" selection-start-column="9" selection-end-line="74" selection-end-column="9" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/groupapp/views.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="314">
-          <caret line="177" selection-start-line="177" selection-end-line="177" />
+        <state relative-caret-position="674">
+          <caret line="179" column="39" selection-start-line="179" selection-start-column="39" selection-end-line="179" selection-end-column="39" />
           <folding>
             <element signature="e#0#13#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/static/check_huakuai.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret column="10" selection-start-column="10" selection-end-column="10" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/static/lock.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="528">
+          <caret line="25" column="13" selection-start-line="25" selection-start-column="13" selection-end-line="25" selection-end-column="13" />
         </state>
       </provider>
     </entry>

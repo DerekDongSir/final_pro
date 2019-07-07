@@ -85,7 +85,7 @@
 			enable: false,
 			contentType: "application/x-www-form-urlencoded",
 			type: "post",
-			dataType: "text",
+			dataType: "lock.js",
 			url: "",
 			autoParam: [],
 			otherParam: [],

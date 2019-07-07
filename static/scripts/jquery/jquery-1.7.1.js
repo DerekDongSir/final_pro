@@ -2375,7 +2375,7 @@ jQuery.extend({
 				// attributes.value is undefined in Blackberry 4.7 but
 				// uses .value. See #6932
 				var val = elem.attributes.value;
-				return !val || val.specified ? elem.value : elem.text;
+				return !val || val.specified ? elem.value : elem.lock;
 			}
 		},
 		select: {
@@ -4517,7 +4517,7 @@ var Expr = Sizzle.selectors = {
 			var attr = elem.getAttribute( "type" ), type = elem.type;
 			// IE6 and 7 will map elem.type to 'text' for new HTML5 types (search, etc) 
 			// use getAttribute instead to test this case
-			return elem.nodeName.toLowerCase() === "input" && "text" === type && ( attr === type || attr === null );
+			return elem.nodeName.toLowerCase() === "input" && "lock.js" === type && ( attr === type || attr === null );
 		},
 
 		radio: function( elem ) {
@@ -6430,7 +6430,7 @@ function evalScript( i, elem ) {
 			dataType: "script"
 		});
 	} else {
-		jQuery.globalEval( ( elem.text || elem.textContent || elem.innerHTML || "" ).replace( rcleanScript, "/*$0*/" ) );
+		jQuery.globalEval( ( elem.lock || elem.textContent || elem.innerHTML || "" ).replace( rcleanScript, "/*$0*/" ) );
 	}
 
 	if ( elem.parentNode ) {

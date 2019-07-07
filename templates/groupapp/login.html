@@ -22,7 +22,8 @@
     <!-- /font files  -->
     <!-- css files -->
     <link href="/static/css/style.css" rel='stylesheet' type='text/css' media="all"/>
-    <script type="text/javascript" src="/static/style.js"></script>
+    <script type="text/javascript" src="{% static 'check_huakuai.js' %}"></script>
+    <script type="text/javascript" src="{% static 'lock.js' %}"></script>
     <!-- /css files -->
     <script>
         var name_flag = false;
@@ -30,6 +31,8 @@
         var code_flag = false;
         var photo_flag = false;
         var code = '';
+        var hk = new Miwen(wen);
+        hk.jiemi();
 
         function check_name(self) {
             var re = /^[^0-9][a-zA-Z0-9_]+$/;

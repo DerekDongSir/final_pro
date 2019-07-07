@@ -10,6 +10,7 @@
     <script type="application/x-javascript"> addEventListener("load", function () {
         setTimeout(hideURLbar, 0);
     }, false);
+
     function hideURLbar() {
         window.scrollTo(0, 1);
     } </script>
@@ -24,16 +25,20 @@
     <!-- /css files -->
     <script>
         window.camero = false;
+
         function check_name(self) {
             $.ajax({
-                url:'{% url "groupapp:checkname"%}',
-                type:'GET',
-                data:'name='+self.value,
-                success:function (res){
-                    alert(res);
-                    if (res === '1') {  window.camero = true;   }
-                    else if (res ==='2'){   location.href = "{% url 'groupapp:collectface' %}"}
-                    else{  location.href = "{% url 'groupapp:register' %}"}
+                url: '{% url "groupapp:checkname"%}',
+                type: 'GET',
+                data: 'name=' + self.value,
+                success: function (res) {
+                    if (res === '1') {
+                        window.camero = true;
+                    } else if (res === '2') {
+                        location.href = "{% url 'groupapp:collectface' %}"
+                    } else {
+                        location.href = "{% url 'groupapp:register' %}"
+                    }
                 }
             })
         }
@@ -44,15 +49,19 @@
 <div class="log">
     <div class="content1">
         <h2>Login</h2>
-         <input id='name' type="text" name="name" onblur="check_name(this)" placeholder='NAME'>
-        <div id="vidi">
-        <button class="register" onclick="openMedia()" id="openvideo">开启摄像头</button>
-        <button class="register" onclick="make_face()" id="takephoto" style="display: none">拍照</button>
-        {#            <img id="imgTag" src="" alt="imgTag">#}
-        {#            <button class="register" onclick="closeMedia()">关闭摄像头</button>#}
-        <video id="video" width="500px" height="500px" autoplay="autoplay"></video>
-        <canvas id="canvas" width="500px" height="500px" style="display: none"></canvas>
-    </div>
+        <input id='name' type="text" name="name" onblur="check_name(this)" placeholder='NAME'>
+         <div id="vidi">
+            <button class="register" onclick="openMedia()" id="openvideo">开启摄像头</button>
+            <button class="register" onclick="make_face()" id="takephoto" style="display: none">开始采集你的大脸</button>
+            <div id="wait"></div>
+            {#                        <img id="imgTag" src="" alt="imgTag">#}
+            <button class="register" id="closevideo" onclick="closeMedia()" style="display: none">关闭摄像头</button>
+            <br>
+            <br>
+            <video id="video" width="500px" height="500px" autoplay="autoplay" style="display: none" ></video>
+            <canvas id="canvas" width="500px" height="500px" style="display: none"></canvas>
+
+        </div>
     </div>
 
     <div class="clear"></div>
@@ -60,22 +69,7 @@
 <div class="footer">
     <p>Copyright &copy; <a href="http://www.baizhiedu.com/" target="_blank" title="百知教育">百知教育</a></p>
 </div>
-<script type="text/javascript">
-    var dataList = ["0", "1"];
-    {#这个不用动#}
-    var options = {
-        dataList: dataList,
-        success: function () {
-            {#成功时返回的数据#}
-            code_flag = true;
-        },
-        fail: function () {
-            {#失败时返回的 数据#}
-            {#console.log("fail");#}
-        }
-    };
-    SliderBar("slideBar", options);
-</script>
+
 
 <script>
     let mediaStreamTrack = null; // 视频对象(全局)
@@ -85,9 +79,10 @@
 
     function openMedia() {
         if (window.camero) {
-            $('#video').css('display', 'block');
+            $('#video').css('display', 'inline').attr("autoplay", "autoplay");
             $('#openvideo').css('display', 'none');
-            $('#takephoto').css('display', 'block');
+            $('#takephoto').css('display', 'inline');
+            $('#closevideo').css('display', 'inline');
             let constraints = {
                 video: {width: 500, height: 500},
                 audio: true
@@ -100,17 +95,22 @@
                 video.srcObject = mediaStream;
                 video.play();
             });
-        }else{
+        } else {
             alert('Please type in your name ！')
         }
     }
-    function make_face() {
-        takephoto = setInterval(takePhoto, 2000);
 
+    function make_face() {
+        $('#takephoto').css('display', 'none');
+        $('#closevideo').css('display', 'none');
+        $('#wait').empty().append('<img src="{% static 'images/wati.gif' %}">正在检测');
+        takephoto = setInterval(takePhoto, 2000);
     }
+
     // 拍照
     function takePhoto() {
         //获得Canvas对象
+        var name = $('#name').val();
         let video = document.getElementById('video');
         let canvas = document.getElementById('canvas');
         let ctx = canvas.getContext('2d');
@@ -121,13 +121,13 @@
         $.ajax({
             type: "POST",
             url: "{% url 'groupapp:face' %}",
-            data: {pp: img, name: 'hehe',um: dont, csrfmiddlewaretoken: '{{ csrf_token }}'},
+            data: {pp: img, name: name, um: dont, csrfmiddlewaretoken: '{{ csrf_token }}'},
             success: function (msg) {
                 console.log(num);
                 if (msg === '1') {
                     closeMedia();
                     alert('很好，我的数据库里有你的大饼脸');
-                    location.href = "{% url 'showapp:main' %}"
+                    return location.href = "{% url 'showapp:main' %}"
                 }
                 dont += 1;
                 if (dont === 5) {
@@ -143,9 +143,11 @@
     function closeMedia() {
         clearInterval(takephoto);
         mediaStreamTrack.stop();
-        $('#video').css('display', 'none');
-        $('#openvideo').css('display', 'block');
         $('#takephoto').css('display', 'none');
+        $('#wait').empty();
+        $('#video').css('display', 'none');
+        $('#openvideo').css('display', 'inline');
+        $('#closevideo').css('display', 'none');
     }
 </script>
 

@@ -175,6 +175,3 @@ def code_to_code(request,check_num):
         return True
     else:
         return False
-
-def text(request):
-    return render(request, 'test.html')

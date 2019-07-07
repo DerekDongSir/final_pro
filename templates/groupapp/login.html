@@ -21,7 +21,7 @@
     <link rel="stylesheet" href="/static/style.css">
     <!-- /font files  -->
     <!-- css files -->
-    <link href="/static/css/style.css" rel='stylesheet' type='text/css' media="all"/>
+    <link href="{% static 'css/style.css' %}" rel='stylesheet' type='text/css' media="all"/>
     <script type="text/javascript" src="{% static 'check_huakuai.js' %}"></script>
     <script type="text/javascript" src="{% static 'lock.js' %}"></script>
     <!-- /css files -->
@@ -72,7 +72,7 @@
                 data: "csrfmiddlewaretoken=" + "{{ csrf_token }}",
                 success: function (data) {
                     code = data;
-                    setTimeout('SliderBar("slideBar", options,code)', 500)
+                    SliderBar("slideBar", options,code)
                 }
             });
         }

@@ -226,6 +226,6 @@
                 _this.slideHint.style.opacity = "1";
             }
         }
-    }
+    };
     window.SliderBar = SliderBar;
 }(window, document));

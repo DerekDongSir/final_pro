@@ -161,14 +161,13 @@ def searchMsg(request):   # 搜索
     return HttpResponse('qwe')
 
 def city_map(request):
-    clear_city = {'北京':0,'广州':0,'深圳':0,'上海':0}
-    city_list = list(Msg.objects.filter(ideal_city__isnull=False))
-    for i in city_list:
-        for j in clear_city.keys():
-            if j in i.ideal_city:
-                clear_city[j] += 1
-    return JsonResponse({'city_data':clear_city})
-
-
-def open_city_map(request):
-    return render(request,'city_map.html')
+    clear_city = ['北京','广州','深圳','上海']
+    lis = []
+    num = 0
+    for i in clear_city:
+        city_list = len(Msg.objects.filter(ideal_city__isnull=False,ideal_city__contains=i))
+        if i=='广州' or i=='深圳':
+            num +=city_list
+            lis.append({'name': '广东', 'value': num})
+        lis.append({'name':i,'value':city_list})
+    return JsonResponse({'city_data':lis})

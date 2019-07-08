@@ -143,7 +143,7 @@ def add_user_face(request):
         if mana == 'add':
             face = Fa('user_face', 'user_face').add_face(name, str(num) + '.jpg')
         else:
-            face = Fa('user_face', 'user_face').face_yanzheng(name, str(num) + '.jpg', 0.35)
+            face = Fa('user_face', 'user_face').face_yanzheng(name, str(num) + '.jpg', 0.4)
         os.remove(str(num) + '.jpg')
         if face:
             return HttpResponse('1')
@@ -154,8 +154,9 @@ def add_user_face(request):
 
 
 def check_code(request):
-    session_dict = request.session['code']
-    if isinstance(session_dict,dict):
+    try:
+        session_dict = request.session['code']
+    except:
         session_dict = {}
     cod = random.sample(string.ascii_lowercase + string.ascii_uppercase + string.digits, 16)
     random_code = "".join(cod)
